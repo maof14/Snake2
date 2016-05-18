@@ -8,6 +8,10 @@
 ; [En lista med registerdefinitioner]
 .DEF rTemp				= r16
 .DEF rTemp2				= r17
+.DEF rPORTB				= r18
+.DEF rPORTC				= r19
+.DEF rPORTD				= r20
+.DEF rMellan			= r21
 .DEF rDirection			= r23
 
 /* [En lista med konstanter] */
@@ -123,22 +127,18 @@ init:
 	; Initiering av timer
 	; 1. Konfigurera pre-scaling genom att sätta bit 0-2 i TCCR0B
 	ldi rTemp, 0x00
-	ldi rTemp2, 0x00
-	ldi rTemp, (1<<CS00)|(1<<CS02)
-	lds rTemp2, TCCR0B
-	or rTemp, rTemp2
+	lds rTemp, TCCR0B
+	sbr rTemp,(1<<CS00)|(1<<CS02)
 	sts TCCR0B, rTemp
 
 	; 2. Aktivera globala avbrott genom instruktionen sei
 	sei
 
-	ldi rTemp, 0x00
-	ldi rTemp2, 0x00
-	; 3. Aktivera overflow-avbrottet för Timer0 genom att sätta bit 0 i TIMSK0 till 1.
-	ldi rTemp, (1<<TOIE0)
-	lds rTemp2, TIMSK0
-	or rTemp, rTemp2
-	sts TIMSK0, rTemp
+	; 3. Aktivera overflow-avbrott för timern genom att sätta bit 0 i TIMSK0 till 1.
+	ldi rTemp, 0x00		; Nollställ rTemp
+	lds rTemp, TIMSK0	; Ta nuvarnade TIMSK0
+	sbr rTemp,(1<<TOIE0); Ändra en bitjävel
+	sts TIMSK0, rTemp	; Sätt tillbaka den ändrade TIMSK0
 
 	; Konfiguration av A/D-omvandlaren
 	ldi rTemp, 0x00
@@ -155,6 +155,7 @@ init:
 ; Game loop
 main: 
 
+	; Välj x-axel
 	ldi rTemp, 0x00
 	lds rTemp, ADMUX
 	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
@@ -170,68 +171,36 @@ iterate_x:
 	ldi rTemp, 0x00
 	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
 	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
-	jmp iterate_x				; Iterera
+	jmp iterate_x			; Iterera
 	nop
 
-	lds rTemp, ADCL
+	;lds rTemp, ADCL
+	lds rTemp, ADCH
+	mov rMellan, rTemp
 
 ;	===================
 ;		FIRST ROW
 ;	===================
 	sbi ROW0_PORT, ROW0_PINOUT
 
-	sbi COL0_PORT, COL0_PINOUT
-	sbi COL1_PORT, COL1_PINOUT
-	sbi COL2_PORT, COL2_PINOUT
-	sbi COL3_PORT, COL3_PINOUT
-	sbi COL4_PORT, COL4_PINOUT
-	sbi COL5_PORT, COL5_PINOUT
-	sbi COL6_PORT, COL6_PINOUT
-	sbi COL7_PORT, COL7_PINOUT
+	;ldi rTemp, 0b00110011
 
+	rcall Laddarad
 	
-	
-	
-
-	
-	cbi COL0_PORT, COL0_PINOUT
-	cbi COL1_PORT, COL1_PINOUT
-	cbi COL2_PORT, COL2_PINOUT
-	cbi COL3_PORT, COL3_PINOUT
-	cbi COL4_PORT, COL4_PINOUT
-	cbi COL5_PORT, COL5_PINOUT
-	cbi COL6_PORT, COL6_PINOUT
-	cbi COL7_PORT, COL7_PINOUT
+	rcall clear
 
 	cbi ROW0_PORT, ROW0_PINOUT
 ;	===================
 ;		SECOND ROW
 ;	===================
-
+/*
 	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
 
-	sbi COL0_PORT, COL0_PINOUT //Aktiverar alla COL
-	sbi COL1_PORT, COL1_PINOUT 
-	sbi COL2_PORT, COL2_PINOUT
-	sbi COL3_PORT, COL3_PINOUT
-	sbi COL4_PORT, COL4_PINOUT
-	sbi COL5_PORT, COL5_PINOUT
-	sbi COL6_PORT, COL6_PINOUT
-	sbi COL7_PORT, COL7_PINOUT
+	ldi rTemp, 0b11001100
 
+	rcall Laddarad
 	
-	
-	
-
-	
-	cbi COL0_PORT, COL0_PINOUT //Avaktiverar alla COL
-	cbi COL1_PORT, COL1_PINOUT
-	cbi COL2_PORT, COL2_PINOUT
-	cbi COL3_PORT, COL3_PINOUT
-	cbi COL4_PORT, COL4_PINOUT
-	cbi COL5_PORT, COL5_PINOUT
-	cbi COL6_PORT, COL6_PINOUT
-	cbi COL7_PORT, COL7_PINOUT
+	rcall clear
 
 
 
@@ -244,28 +213,11 @@ iterate_x:
 	
 	sbi ROW2_PORT, ROW2_PINOUT
 
-	sbi COL0_PORT, COL0_PINOUT
-	sbi COL1_PORT, COL1_PINOUT
-	sbi COL2_PORT, COL2_PINOUT
-	sbi COL3_PORT, COL3_PINOUT
-	sbi COL4_PORT, COL4_PINOUT
-	sbi COL5_PORT, COL5_PINOUT
-	sbi COL6_PORT, COL6_PINOUT
-	sbi COL7_PORT, COL7_PINOUT
+	ldi rTemp, 0b00110011
 
+	rcall Laddarad
 	
-	
-	
-
-	
-	cbi COL0_PORT, COL0_PINOUT
-	cbi COL1_PORT, COL1_PINOUT
-	cbi COL2_PORT, COL2_PINOUT
-	cbi COL3_PORT, COL3_PINOUT
-	cbi COL4_PORT, COL4_PINOUT
-	cbi COL5_PORT, COL5_PINOUT
-	cbi COL6_PORT, COL6_PINOUT
-	cbi COL7_PORT, COL7_PINOUT
+	rcall clear
 
 
 	cbi ROW2_PORT, ROW2_PINOUT
@@ -279,28 +231,11 @@ iterate_x:
 	
 	sbi ROW3_PORT, ROW3_PINOUT
 
-	sbi COL0_PORT, COL0_PINOUT
-	sbi COL1_PORT, COL1_PINOUT
-	sbi COL2_PORT, COL2_PINOUT
-	sbi COL3_PORT, COL3_PINOUT
-	sbi COL4_PORT, COL4_PINOUT
-	sbi COL5_PORT, COL5_PINOUT
-	sbi COL6_PORT, COL6_PINOUT
-	sbi COL7_PORT, COL7_PINOUT
+	ldi rTemp, 0b11001100
 
+	rcall Laddarad
 	
-	
-	
-
-	
-	cbi COL0_PORT, COL0_PINOUT
-	cbi COL1_PORT, COL1_PINOUT
-	cbi COL2_PORT, COL2_PINOUT
-	cbi COL3_PORT, COL3_PINOUT
-	cbi COL4_PORT, COL4_PINOUT
-	cbi COL5_PORT, COL5_PINOUT
-	cbi COL6_PORT, COL6_PINOUT
-	cbi COL7_PORT, COL7_PINOUT
+	rcall clear
 
 
 
@@ -313,29 +248,11 @@ iterate_x:
 
 	sbi ROW4_PORT, ROW4_PINOUT
 
-	sbi COL0_PORT, COL0_PINOUT
-	sbi COL1_PORT, COL1_PINOUT
-	sbi COL2_PORT, COL2_PINOUT
-	sbi COL3_PORT, COL3_PINOUT
-	sbi COL4_PORT, COL4_PINOUT
-	sbi COL5_PORT, COL5_PINOUT
-	sbi COL6_PORT, COL6_PINOUT
-	sbi COL7_PORT, COL7_PINOUT
+	ldi rTemp, 0b00110011
 
+	rcall Laddarad
 	
-	
-	
-
-	
-	cbi COL0_PORT, COL0_PINOUT
-	cbi COL1_PORT, COL1_PINOUT
-	cbi COL2_PORT, COL2_PINOUT
-	cbi COL3_PORT, COL3_PINOUT
-	cbi COL4_PORT, COL4_PINOUT
-	cbi COL5_PORT, COL5_PINOUT
-	cbi COL6_PORT, COL6_PINOUT
-	cbi COL7_PORT, COL7_PINOUT
-	cbi ROW4_PORT, ROW4_PINOUT
+	rcall clear
 
 ;	===================
 ;		SIXTH ROW
@@ -344,28 +261,11 @@ iterate_x:
 	
 	sbi ROW5_PORT, ROW5_PINOUT
 
-	sbi COL0_PORT, COL0_PINOUT
-	sbi COL1_PORT, COL1_PINOUT
-	sbi COL2_PORT, COL2_PINOUT
-	sbi COL3_PORT, COL3_PINOUT
-	sbi COL4_PORT, COL4_PINOUT
-	sbi COL5_PORT, COL5_PINOUT
-	sbi COL6_PORT, COL6_PINOUT
-	sbi COL7_PORT, COL7_PINOUT
+	ldi rTemp, 0b11001100
 
+	rcall Laddarad
 	
-	
-	
-
-	
-	cbi COL0_PORT, COL0_PINOUT
-	cbi COL1_PORT, COL1_PINOUT
-	cbi COL2_PORT, COL2_PINOUT
-	cbi COL3_PORT, COL3_PINOUT
-	cbi COL4_PORT, COL4_PINOUT
-	cbi COL5_PORT, COL5_PINOUT
-	cbi COL6_PORT, COL6_PINOUT
-	cbi COL7_PORT, COL7_PINOUT
+	rcall clear
 
 
 	cbi ROW5_PORT, ROW5_PINOUT
@@ -379,28 +279,11 @@ iterate_x:
 	
 	sbi ROW6_PORT, ROW6_PINOUT
 
-	sbi COL0_PORT, COL0_PINOUT
-	sbi COL1_PORT, COL1_PINOUT
-	sbi COL2_PORT, COL2_PINOUT
-	sbi COL3_PORT, COL3_PINOUT
-	sbi COL4_PORT, COL4_PINOUT
-	sbi COL5_PORT, COL5_PINOUT
-	sbi COL6_PORT, COL6_PINOUT
-	sbi COL7_PORT, COL7_PINOUT
+	ldi rTemp, 0b00110011
 
+	rcall Laddarad
 	
-	
-	
-
-	
-	cbi COL0_PORT, COL0_PINOUT
-	cbi COL1_PORT, COL1_PINOUT
-	cbi COL2_PORT, COL2_PINOUT
-	cbi COL3_PORT, COL3_PINOUT
-	cbi COL4_PORT, COL4_PINOUT
-	cbi COL5_PORT, COL5_PINOUT
-	cbi COL6_PORT, COL6_PINOUT
-	cbi COL7_PORT, COL7_PINOUT
+	rcall clear
 
 
 	cbi ROW6_PORT, ROW6_PINOUT
@@ -413,19 +296,48 @@ iterate_x:
 	
 	sbi ROW7_PORT, ROW7_PINOUT
 
-	sbi COL0_PORT, COL0_PINOUT
-	sbi COL1_PORT, COL1_PINOUT
-	sbi COL2_PORT, COL2_PINOUT
-	sbi COL3_PORT, COL3_PINOUT
-	sbi COL4_PORT, COL4_PINOUT
-	sbi COL5_PORT, COL5_PINOUT
-	sbi COL6_PORT, COL6_PINOUT
-	sbi COL7_PORT, COL7_PINOUT
+	ldi rTemp, 0b11001100
 
+	rcall Laddarad
 	
-	
-	
+	rcall clear
 
+
+	cbi ROW7_PORT, ROW7_PINOUT
+	*/
+	jmp main
+
+; tick
+isr_timerOF:
+	
+	reti
+
+Laddarad:
+
+	bst rMellan, 7
+	bld rPORTD, 6
+	bst rMellan, 6
+	bld rPORTD, 7
+	bst rMellan, 5
+	bld rPORTB, 0
+	bst rMellan, 4
+	bld rPORTB, 1
+	bst rMellan, 3
+	bld rPORTB, 2
+	bst rMellan, 2
+	bld rPORTB, 3
+	bst rMellan, 1
+	bld rPORTB, 4
+	bst rMellan, 0
+	bld rPORTB, 5
+
+	out PORTD, rPORTD
+	out PORTB, rPORTB
+
+	ret
+
+
+clear:
 	
 	cbi COL0_PORT, COL0_PINOUT
 	cbi COL1_PORT, COL1_PINOUT
@@ -435,13 +347,5 @@ iterate_x:
 	cbi COL5_PORT, COL5_PINOUT
 	cbi COL6_PORT, COL6_PINOUT
 	cbi COL7_PORT, COL7_PINOUT
-
-
-	cbi ROW7_PORT, ROW7_PINOUT
-
-	jmp main
-
-; tick
-isr_timerOF:
-
-	reti
+	
+	ret
