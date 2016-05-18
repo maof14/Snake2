@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:03:22 2016
+AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:06:34 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -999,70 +999,70 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  .EQU MAX_LENGTH			= 25
                  
                  ; Definera namn för alla kolumner för att dessa ska bli enkelt att referera till
-                 .EQU COL0_DDR = DDRD
-                 .EQU COL0_PORT = PORTD
-                 .EQU COL0_PINOUT = PD6
+                 .EQU COL0_DDR			= DDRD
+                 .EQU COL0_PORT			= PORTD
+                 .EQU COL0_PINOUT		= PD6
                  
-                 .EQU COL1_DDR = DDRD
-                 .EQU COL1_PORT = PORTD
-                 .EQU COL1_PINOUT = PD7
+                 .EQU COL1_DDR			= DDRD
+                 .EQU COL1_PORT			= PORTD
+                 .EQU COL1_PINOUT		= PD7
                  
-                 .EQU COL2_DDR = DDRB
-                 .EQU COL2_PORT = PORTB
-                 .EQU COL2_PINOUT = PB0
+                 .EQU COL2_DDR			= DDRB
+                 .EQU COL2_PORT			= PORTB
+                 .EQU COL2_PINOUT		= PB0
                  
-                 .EQU COL3_DDR = DDRB
-                 .EQU COL3_PORT = PORTB
-                 .EQU COL3_PINOUT = PB1
+                 .EQU COL3_DDR			= DDRB
+                 .EQU COL3_PORT			= PORTB
+                 .EQU COL3_PINOUT		= PB1
                  
-                 .EQU COL4_DDR = DDRB
-                 .EQU COL4_PORT = PORTB
-                 .EQU COL4_PINOUT = PB2
+                 .EQU COL4_DDR			= DDRB
+                 .EQU COL4_PORT			= PORTB
+                 .EQU COL4_PINOUT		= PB2
                  
-                 .EQU COL5_DDR = DDRB
-                 .EQU COL5_PORT = PORTB
-                 .EQU COL5_PINOUT = PB3
+                 .EQU COL5_DDR			= DDRB
+                 .EQU COL5_PORT			= PORTB
+                 .EQU COL5_PINOUT		= PB3
                  
-                 .EQU COL6_DDR = DDRB
-                 .EQU COL6_PORT = PORTB
-                 .EQU COL6_PINOUT = PB4
+                 .EQU COL6_DDR			= DDRB
+                 .EQU COL6_PORT			= PORTB
+                 .EQU COL6_PINOUT		= PB4
                  
-                 .EQU COL7_DDR = DDRB
-                 .EQU COL7_PORT = PORTB
-                 .EQU COL7_PINOUT = PB5
+                 .EQU COL7_DDR			= DDRB
+                 .EQU COL7_PORT			= PORTB
+                 .EQU COL7_PINOUT		= PB5
                  
                  ; Definera namn för alla rader. 
-                 .EQU ROW0_DDR = DDRC
-                 .EQU ROW0_PORT =  PORTC
-                 .EQU ROW0_PINOUT = PC0
+                 .EQU ROW0_DDR			= DDRC
+                 .EQU ROW0_PORT			= PORTC
+                 .EQU ROW0_PINOUT		= PC0
                  
-                 .EQU ROW1_DDR = DDRC
-                 .EQU ROW1_PORT = PORTC
-                 .EQU ROW1_PINOUT = PC1
+                 .EQU ROW1_DDR			= DDRC
+                 .EQU ROW1_PORT			= PORTC
+                 .EQU ROW1_PINOUT		= PC1
                  
-                 .EQU ROW2_DDR = DDRC
-                 .EQU ROW2_PORT = PORTC
-                 .EQU ROW2_PINOUT = PC2
+                 .EQU ROW2_DDR			= DDRC
+                 .EQU ROW2_PORT			= PORTC
+                 .EQU ROW2_PINOUT		= PC2
                  
-                 .EQU ROW3_DDR = DDRC
-                 .EQU ROW3_PORT = PORTC
-                 .EQU ROW3_PINOUT = PC3
+                 .EQU ROW3_DDR			= DDRC
+                 .EQU ROW3_PORT			= PORTC
+                 .EQU ROW3_PINOUT		= PC3
                  
-                 .EQU ROW4_DDR = DDRD
-                 .EQU ROW4_PORT = PORTD
-                 .EQU ROW4_PINOUT = PD2
+                 .EQU ROW4_DDR			= DDRD
+                 .EQU ROW4_PORT			= PORTD
+                 .EQU ROW4_PINOUT		= PD2
                  
-                 .EQU ROW5_DDR = DDRD
-                 .EQU ROW5_PORT = PORTD
-                 .EQU ROW5_PINOUT = PD3
+                 .EQU ROW5_DDR			= DDRD
+                 .EQU ROW5_PORT			= PORTD
+                 .EQU ROW5_PINOUT		= PD3
                  
-                 .EQU ROW6_DDR = DDRD
-                 .EQU ROW6_PORT = PORTD
-                 .EQU ROW6_PINOUT = PD4
+                 .EQU ROW6_DDR			= DDRD
+                 .EQU ROW6_PORT			= PORTD
+                 .EQU ROW6_PINOUT		= PD4
                  
-                 .EQU ROW7_DDR = DDRD
-                 .EQU ROW7_PORT = PORTD
-                 .EQU ROW7_PINOUT = PD5
+                 .EQU ROW7_DDR			= DDRD
+                 .EQU ROW7_PORT			= PORTD
+                 .EQU ROW7_PINOUT		= PD5
                  
                  ; [Datasegmentet]
                  .DSEG
@@ -1076,7 +1076,7 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  .ORG 0x0000
 000000 940c 0034 	jmp init // Reset vector
                  .ORG 0x0020
-                 //... fler interrupts
+000020 940c 003a 	jmp isr_timerOF
                  .ORG INT_VECTORS_SIZE
                  init:
                  	// Sätt stackpekaren till högsta minnesadressen
@@ -1127,7 +1127,7 @@ brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :   0 cbr   :   0
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   0 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   2 
+fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   3 
 ld    :   0 ldd   :   0 ldi   :   2 lds   :   0 lpm   :   0 lsl   :   0 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   2 pop   :   0 
@@ -1142,7 +1142,7 @@ Instructions used: 4 out of 113 (3.5%)
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000076     18      0     18   32768   0.1%
+[.cseg] 0x000000 0x000076     22      0     22   32768   0.1%
 [.dseg] 0x000100 0x000122      0     34     34    2048   1.7%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
