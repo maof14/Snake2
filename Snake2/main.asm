@@ -155,6 +155,26 @@ init:
 ; Game loop
 main: 
 
+	ldi rTemp, 0x00
+	lds rTemp, ADMUX
+	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
+	sts ADMUX, rTemp
+
+	; Starta A/D-konvertering. 
+	ldi rTemp, 0x00
+	lds rTemp, ADCSRA		; Get ADCSRA
+	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
+	sts ADCSRA, rTemp		; Ladda in
+	
+iterate_x:
+	ldi rTemp, 0x00
+	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
+	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
+	jmp iterate_x				; Iterera
+	nop
+
+	lds rTemp, ADCL
+
 ;	===================
 ;		FIRST ROW
 ;	===================
