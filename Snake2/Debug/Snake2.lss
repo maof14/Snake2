@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:29:36 2016
-=======
-AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:29:40 2016
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:38:58 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -1003,7 +999,7 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  .EQU NUM_COLUMNS		= 8
                  .EQU MAX_LENGTH			= 25
                  
-                 ; Definera namn för alla kolumner för att dessa ska bli enkelt att referera till
+                 ; Definera namn får alla kolumner får att dessa ska bli enkelt att referera till
                  .EQU COL0_DDR			= DDRD
                  .EQU COL0_PORT			= PORTD
                  .EQU COL0_PINOUT		= PD6
@@ -1036,7 +1032,7 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  .EQU COL7_PORT			= PORTB
                  .EQU COL7_PINOUT		= PB5
                  
-                 ; Definera namn för alla rader. 
+                 ; Definera namn fÃ¶r alla rader. 
                  .EQU ROW0_DDR			= DDRC
                  .EQU ROW0_PORT			= PORTC
                  .EQU ROW0_PINOUT		= PC0
@@ -1081,49 +1077,30 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  .ORG 0x0000
 000000 940c 0034 	jmp init // Reset vector
                  .ORG 0x0020
-000020 940c 0066 	jmp isr_timerOF
+000020 940c 00fa 	jmp isr_timerOF
                  .ORG INT_VECTORS_SIZE
                  init:
-                 	// Sätt stackpekaren till högsta minnesadressen
+                 	// SÃ¤tt stackpekaren till hÃ¶gsta minnesadressen
 000034 e008      	ldi rTemp, HIGH(RAMEND)
 000035 bf0e      	out SPH, rTemp
 000036 ef0f      	ldi rTemp, LOW(RAMEND)
 000037 bf0d      	out SPL, rTemp
                  
-<<<<<<< HEAD
-                 ; Sätt alla I/O-portar till output, ettor i DDR representerar output. 
-000038 ef0f      	ldi rTemp, 0b11111111
-000039 b904      	out DDRB, rTemp
-00003a b907      	out DDRC, rTemp
-00003b b90a      	out DDRD, rTemp
-                 
-                 	; Sätter joystickar till input, nolla i DDR representerar input. 
-00003c 983c      	cbi DDRC, PC4 ; 
-00003d 983d      	cbi DDRC, PC5 ; DDR klar
-                 
-                 	; Avaktiverar alla lampor
-00003e e000      	ldi rTemp, 0b00000000 
-00003f b905      	out PORTB, rTemp
-000040 b908      	out PORTC, rTemp
-000041 b90b      	out PORTD, rTemp
-                 
-                 
-=======
-                 	; Initiering av portar för I/O
+                 	; Initiering av portar fÃ¶r I/O
 000038 ef0f      	ldi rTemp, 0b11111111	; ettor
 000039 2310      	and rTemp2, rTemp		; nollor
                  
-                 	; Sätt alla I/O-portar till output, ettor i DDR representerar output. 
+                 	; SÃ¤tt alla I/O-portar till output, ettor i DDR representerar output. 
 00003a ef0f      	ldi rTemp, 0b11111111
 00003b b904      	out DDRB, rTemp
 00003c b907      	out DDRC, rTemp
 00003d b90a      	out DDRD, rTemp
                  
-                 	; Två portar på DDRC är joystick X och Y
+                 	; TvÃ¥ portar pÃ¥ DDRC Ã¤r joystick X och Y
 00003e 983c      	cbi DDRC, PC4
 00003f 983d      	cbi DDRC, PC5
                  
-                 	; Släck alla lampor, sätt nollpå alla portar. 
+                 	; SlÃ¤ck alla lampor, sÃ¤tt nollpÃ¥ alla portar. 
 000040 b915      	out PORTB, rTemp2
 000041 b918      	out PORTC, rTemp2
 000042 b91b      	out PORTD, rTemp2
@@ -1137,17 +1114,38 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
 000048 2b01      	or rTemp, rTemp2
 000049 9300 0025 	sts TCCR0B, rTemp
                  
-                 	; 2. Aktivera globala avbrott genom instruktionen sei
-00004b 9478      	sei
+                 	; Timer-konfiguration start
+                 	; 1. Konfigurera pre-scaling genom att sÃ¤tta bit 0-2 i TCCR0B
+00004b 9100 0025 	lds r16, TCCR0B					; ta nuvarande vÃ¤rde pÃ¥ TCCR0B
+00004d 6005      	sbr r16,(1<<CS00)|(1<<CS02)		; Manipulera de enskilda bitarna i temporÃ¤r TCCRB0. (prescales to 1024. rSettings = 0b00000101)
+00004e 9300 0025 	sts TCCR0B, r16
                  
-00004c e000      	ldi rTemp, 0x00
-00004d e010      	ldi rTemp2, 0x00
+                 	; 2. Aktivera globala avbrott genom instruktionen sei
+000050 9478      	sei
+                 
+000051 e000      	ldi rTemp, 0x00
+000052 e010      	ldi rTemp2, 0x00
                  	; 3. Aktivera overflow-avbrottet för Timer0 genom att sätta bit 0 i TIMSK0 till 1.
-00004e e001      	ldi rTemp, (1<<TOIE0)
-00004f 9110 006e 	lds rTemp2, TIMSK0
-000051 2b01      	or rTemp, rTemp2
-000052 9300 006e 	sts TIMSK0, rTemp
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+000053 e001      	ldi rTemp, (1<<TOIE0)
+000054 9110 006e 	lds rTemp2, TIMSK0
+000056 2b01      	or rTemp, rTemp2
+000057 9300 006e 	sts TIMSK0, rTemp
+                 
+                 	; 3. Aktivera overflow-avbrottet fÃ¶r Timer0 genom att sÃ¤tta bit 0 i TIMSK0 till 1.
+000059 9100 006e 	lds r16, TIMSK0					; Ta nuvarande vÃ¤rde pÃ¥ TIMSK0
+00005b 6001      	sbr r16,(1<<TOIE0)					; Vad gÃ¶r denna? rSettings = 0b00000001
+00005c 9300 006e 	sts TIMSK0, r16					; sts = out-instruktion fast fÃ¶r icke extendat I/O-space
+                 	; Timer-konfiguration slut. 
+                 
+                 	; Konfiguration av A/D-omvandlaren
+00005e 9100 007c 	lds r16, ADMUX
+000060 6600      	sbr r16,(1<<REFS0)|(0<<REFS1)|(1<<ADLAR) ; ADLAR Ã¤ndrar till 8-bitarslÃ¤ge fÃ¶r input. (mindre precision)
+000061 9300 007c 	sts ADMUX, r16
+                 
+000063 9100 007a 	lds r16, ADCSRA
+000065 6807      	sbr r16,(1<<ADPS0)|(1<<ADPS1)|(1<<ADPS2)|(1<<ADEN)
+000066 9300 007a 	sts ADCSRA, r16
+                 	// Konfiguration av A/D-omvandlaren slut. 
                  
                  ; Game loop
                  main: 
@@ -1155,118 +1153,97 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  ;	===================
                  ;		FIRST ROW
                  ;	===================
-<<<<<<< HEAD
-000042 9a40      	sbi ROW0_PORT, ROW0_PINOUT
+000068 9a40      	sbi ROW0_PORT, ROW0_PINOUT
                  
-000043 9a5e      	sbi COL0_PORT, COL0_PINOUT
-000044 9a5f      	sbi COL1_PORT, COL1_PINOUT
-000045 9a28      	sbi COL2_PORT, COL2_PINOUT
-000046 9a29      	sbi COL3_PORT, COL3_PINOUT
-000047 9a2a      	sbi COL4_PORT, COL4_PINOUT
-000048 9a2b      	sbi COL5_PORT, COL5_PINOUT
-000049 9a2c      	sbi COL6_PORT, COL6_PINOUT
-00004a 9a2d      	sbi COL7_PORT, COL7_PINOUT
-                 
-                 	
-                 	
-                 	
+000069 9a5e      	sbi COL0_PORT, COL0_PINOUT
+00006a 9a5f      	sbi COL1_PORT, COL1_PINOUT
+00006b 9a28      	sbi COL2_PORT, COL2_PINOUT
+00006c 9a29      	sbi COL3_PORT, COL3_PINOUT
+00006d 9a2a      	sbi COL4_PORT, COL4_PINOUT
+00006e 9a2b      	sbi COL5_PORT, COL5_PINOUT
+00006f 9a2c      	sbi COL6_PORT, COL6_PINOUT
+000070 9a2d      	sbi COL7_PORT, COL7_PINOUT
                  
                  	
-00004b 985e      	cbi COL0_PORT, COL0_PINOUT
-00004c 985f      	cbi COL1_PORT, COL1_PINOUT
-00004d 9828      	cbi COL2_PORT, COL2_PINOUT
-00004e 9829      	cbi COL3_PORT, COL3_PINOUT
-00004f 982a      	cbi COL4_PORT, COL4_PINOUT
-000050 982b      	cbi COL5_PORT, COL5_PINOUT
-000051 982c      	cbi COL6_PORT, COL6_PINOUT
-000052 982d      	cbi COL7_PORT, COL7_PINOUT
+                 	
+                 	
                  
-000053 9840      	cbi ROW0_PORT, ROW0_PINOUT
+                 	
+000071 985e      	cbi COL0_PORT, COL0_PINOUT
+000072 985f      	cbi COL1_PORT, COL1_PINOUT
+000073 9828      	cbi COL2_PORT, COL2_PINOUT
+000074 9829      	cbi COL3_PORT, COL3_PINOUT
+000075 982a      	cbi COL4_PORT, COL4_PINOUT
+000076 982b      	cbi COL5_PORT, COL5_PINOUT
+000077 982c      	cbi COL6_PORT, COL6_PINOUT
+000078 982d      	cbi COL7_PORT, COL7_PINOUT
+                 
+000079 9840      	cbi ROW0_PORT, ROW0_PINOUT
                  ;	===================
                  ;		SECOND ROW
                  ;	===================
-=======
-000054 9a40      	sbi ROW0_PORT, ROW0_PINOUT
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
                  
-000054 9a41      	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
+00007a 9a41      	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
                  
-<<<<<<< HEAD
-000055 9a5e      	sbi COL0_PORT, COL0_PINOUT //Aktiverar alla COL
-000056 9a5f      	sbi COL1_PORT, COL1_PINOUT 
-000057 9a28      	sbi COL2_PORT, COL2_PINOUT
-000058 9a29      	sbi COL3_PORT, COL3_PINOUT
-000059 9a2a      	sbi COL4_PORT, COL4_PINOUT
-00005a 9a2b      	sbi COL5_PORT, COL5_PINOUT
-00005b 9a2c      	sbi COL6_PORT, COL6_PINOUT
-00005c 9a2d      	sbi COL7_PORT, COL7_PINOUT
+00007b 9a5e      	sbi COL0_PORT, COL0_PINOUT //Aktiverar alla COL
+00007c 9a5f      	sbi COL1_PORT, COL1_PINOUT 
+00007d 9a28      	sbi COL2_PORT, COL2_PINOUT
+00007e 9a29      	sbi COL3_PORT, COL3_PINOUT
+00007f 9a2a      	sbi COL4_PORT, COL4_PINOUT
+000080 9a2b      	sbi COL5_PORT, COL5_PINOUT
+000081 9a2c      	sbi COL6_PORT, COL6_PINOUT
+000082 9a2d      	sbi COL7_PORT, COL7_PINOUT
                  
                  	
                  	
                  	
                  
                  	
-00005d 985e      	cbi COL0_PORT, COL0_PINOUT //Avaktiverar alla COL
-00005e 985f      	cbi COL1_PORT, COL1_PINOUT
-00005f 9828      	cbi COL2_PORT, COL2_PINOUT
-000060 9829      	cbi COL3_PORT, COL3_PINOUT
-000061 982a      	cbi COL4_PORT, COL4_PINOUT
-000062 982b      	cbi COL5_PORT, COL5_PINOUT
-000063 982c      	cbi COL6_PORT, COL6_PINOUT
-000064 982d      	cbi COL7_PORT, COL7_PINOUT
+000083 985e      	cbi COL0_PORT, COL0_PINOUT //Avaktiverar alla COL
+000084 985f      	cbi COL1_PORT, COL1_PINOUT
+000085 9828      	cbi COL2_PORT, COL2_PINOUT
+000086 9829      	cbi COL3_PORT, COL3_PINOUT
+000087 982a      	cbi COL4_PORT, COL4_PINOUT
+000088 982b      	cbi COL5_PORT, COL5_PINOUT
+000089 982c      	cbi COL6_PORT, COL6_PINOUT
+00008a 982d      	cbi COL7_PORT, COL7_PINOUT
                  
-=======
-000055 9840      	cbi ROW0_PORT, ROW0_PINOUT
-                 ;	===================
-                 ;		SECOND ROW
-                 ;	===================
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
                  
-000056 9a41      	sbi ROW1_PORT, ROW1_PINOUT
                  
-000065 9841      	cbi ROW1_PORT, ROW1_PINOUT //Avaktiverar raden
-                 
-000057 9841      	cbi ROW1_PORT, ROW1_PINOUT
+00008b 9841      	cbi ROW1_PORT, ROW1_PINOUT //Avaktiverar raden
                  
                  ;	===================
                  ;		THIRD ROW
                  ;	===================
                  
                  	
-<<<<<<< HEAD
-000066 9a42      	sbi ROW2_PORT, ROW2_PINOUT
+00008c 9a42      	sbi ROW2_PORT, ROW2_PINOUT
                  
-000067 9a5e      	sbi COL0_PORT, COL0_PINOUT
-000068 9a5f      	sbi COL1_PORT, COL1_PINOUT
-000069 9a28      	sbi COL2_PORT, COL2_PINOUT
-00006a 9a29      	sbi COL3_PORT, COL3_PINOUT
-00006b 9a2a      	sbi COL4_PORT, COL4_PINOUT
-00006c 9a2b      	sbi COL5_PORT, COL5_PINOUT
-00006d 9a2c      	sbi COL6_PORT, COL6_PINOUT
-00006e 9a2d      	sbi COL7_PORT, COL7_PINOUT
-                 
-                 	
-                 	
-                 	
+00008d 9a5e      	sbi COL0_PORT, COL0_PINOUT
+00008e 9a5f      	sbi COL1_PORT, COL1_PINOUT
+00008f 9a28      	sbi COL2_PORT, COL2_PINOUT
+000090 9a29      	sbi COL3_PORT, COL3_PINOUT
+000091 9a2a      	sbi COL4_PORT, COL4_PINOUT
+000092 9a2b      	sbi COL5_PORT, COL5_PINOUT
+000093 9a2c      	sbi COL6_PORT, COL6_PINOUT
+000094 9a2d      	sbi COL7_PORT, COL7_PINOUT
                  
                  	
-00006f 985e      	cbi COL0_PORT, COL0_PINOUT
-000070 985f      	cbi COL1_PORT, COL1_PINOUT
-000071 9828      	cbi COL2_PORT, COL2_PINOUT
-000072 9829      	cbi COL3_PORT, COL3_PINOUT
-000073 982a      	cbi COL4_PORT, COL4_PINOUT
-000074 982b      	cbi COL5_PORT, COL5_PINOUT
-000075 982c      	cbi COL6_PORT, COL6_PINOUT
-000076 982d      	cbi COL7_PORT, COL7_PINOUT
+                 	
+                 	
+                 
+                 	
+000095 985e      	cbi COL0_PORT, COL0_PINOUT
+000096 985f      	cbi COL1_PORT, COL1_PINOUT
+000097 9828      	cbi COL2_PORT, COL2_PINOUT
+000098 9829      	cbi COL3_PORT, COL3_PINOUT
+000099 982a      	cbi COL4_PORT, COL4_PINOUT
+00009a 982b      	cbi COL5_PORT, COL5_PINOUT
+00009b 982c      	cbi COL6_PORT, COL6_PINOUT
+00009c 982d      	cbi COL7_PORT, COL7_PINOUT
                  
                  
-000077 9842      	cbi ROW2_PORT, ROW2_PINOUT
-=======
-000058 9a42      	sbi ROW2_PORT, ROW2_PINOUT
-                 
-                 
-000059 9842      	cbi ROW2_PORT, ROW2_PINOUT
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+00009d 9842      	cbi ROW2_PORT, ROW2_PINOUT
                  
                  
                  
@@ -1275,121 +1252,98 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  ;	===================
                  	
                  	
-<<<<<<< HEAD
-000078 9a43      	sbi ROW3_PORT, ROW3_PINOUT
+00009e 9a43      	sbi ROW3_PORT, ROW3_PINOUT
                  
-000079 9a5e      	sbi COL0_PORT, COL0_PINOUT
-00007a 9a5f      	sbi COL1_PORT, COL1_PINOUT
-00007b 9a28      	sbi COL2_PORT, COL2_PINOUT
-00007c 9a29      	sbi COL3_PORT, COL3_PINOUT
-00007d 9a2a      	sbi COL4_PORT, COL4_PINOUT
-00007e 9a2b      	sbi COL5_PORT, COL5_PINOUT
-00007f 9a2c      	sbi COL6_PORT, COL6_PINOUT
-000080 9a2d      	sbi COL7_PORT, COL7_PINOUT
-                 
-                 	
-                 	
-                 	
+00009f 9a5e      	sbi COL0_PORT, COL0_PINOUT
+0000a0 9a5f      	sbi COL1_PORT, COL1_PINOUT
+0000a1 9a28      	sbi COL2_PORT, COL2_PINOUT
+0000a2 9a29      	sbi COL3_PORT, COL3_PINOUT
+0000a3 9a2a      	sbi COL4_PORT, COL4_PINOUT
+0000a4 9a2b      	sbi COL5_PORT, COL5_PINOUT
+0000a5 9a2c      	sbi COL6_PORT, COL6_PINOUT
+0000a6 9a2d      	sbi COL7_PORT, COL7_PINOUT
                  
                  	
-000081 985e      	cbi COL0_PORT, COL0_PINOUT
-000082 985f      	cbi COL1_PORT, COL1_PINOUT
-000083 9828      	cbi COL2_PORT, COL2_PINOUT
-000084 9829      	cbi COL3_PORT, COL3_PINOUT
-000085 982a      	cbi COL4_PORT, COL4_PINOUT
-000086 982b      	cbi COL5_PORT, COL5_PINOUT
-000087 982c      	cbi COL6_PORT, COL6_PINOUT
-000088 982d      	cbi COL7_PORT, COL7_PINOUT
+                 	
+                 	
+                 
+                 	
+0000a7 985e      	cbi COL0_PORT, COL0_PINOUT
+0000a8 985f      	cbi COL1_PORT, COL1_PINOUT
+0000a9 9828      	cbi COL2_PORT, COL2_PINOUT
+0000aa 9829      	cbi COL3_PORT, COL3_PINOUT
+0000ab 982a      	cbi COL4_PORT, COL4_PINOUT
+0000ac 982b      	cbi COL5_PORT, COL5_PINOUT
+0000ad 982c      	cbi COL6_PORT, COL6_PINOUT
+0000ae 982d      	cbi COL7_PORT, COL7_PINOUT
                  
                  
                  
-000089 9843      	cbi ROW3_PORT, ROW3_PINOUT
-=======
-00005a 9a43      	sbi ROW3_PORT, ROW3_PINOUT
-                 
-                 
-00005b 9843      	cbi ROW3_PORT, ROW3_PINOUT
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+0000af 9843      	cbi ROW3_PORT, ROW3_PINOUT
                  
                  
                  ;	===================
                  ;		FIFTH ROW
                  ;	===================
                  
-<<<<<<< HEAD
-00008a 9a5a      	sbi ROW4_PORT, ROW4_PINOUT
+0000b0 9a5a      	sbi ROW4_PORT, ROW4_PINOUT
                  
-00008b 9a5e      	sbi COL0_PORT, COL0_PINOUT
-00008c 9a5f      	sbi COL1_PORT, COL1_PINOUT
-00008d 9a28      	sbi COL2_PORT, COL2_PINOUT
-00008e 9a29      	sbi COL3_PORT, COL3_PINOUT
-00008f 9a2a      	sbi COL4_PORT, COL4_PINOUT
-000090 9a2b      	sbi COL5_PORT, COL5_PINOUT
-000091 9a2c      	sbi COL6_PORT, COL6_PINOUT
-000092 9a2d      	sbi COL7_PORT, COL7_PINOUT
-                 
-                 	
-                 	
-                 	
+0000b1 9a5e      	sbi COL0_PORT, COL0_PINOUT
+0000b2 9a5f      	sbi COL1_PORT, COL1_PINOUT
+0000b3 9a28      	sbi COL2_PORT, COL2_PINOUT
+0000b4 9a29      	sbi COL3_PORT, COL3_PINOUT
+0000b5 9a2a      	sbi COL4_PORT, COL4_PINOUT
+0000b6 9a2b      	sbi COL5_PORT, COL5_PINOUT
+0000b7 9a2c      	sbi COL6_PORT, COL6_PINOUT
+0000b8 9a2d      	sbi COL7_PORT, COL7_PINOUT
                  
                  	
-000093 985e      	cbi COL0_PORT, COL0_PINOUT
-000094 985f      	cbi COL1_PORT, COL1_PINOUT
-000095 9828      	cbi COL2_PORT, COL2_PINOUT
-000096 9829      	cbi COL3_PORT, COL3_PINOUT
-000097 982a      	cbi COL4_PORT, COL4_PINOUT
-000098 982b      	cbi COL5_PORT, COL5_PINOUT
-000099 982c      	cbi COL6_PORT, COL6_PINOUT
-00009a 982d      	cbi COL7_PORT, COL7_PINOUT
-00009b 985a      	cbi ROW4_PORT, ROW4_PINOUT
-=======
                  	
-00005c 9a5a      	sbi ROW4_PORT, ROW4_PINOUT
+                 	
                  
-                 
-00005d 985a      	cbi ROW4_PORT, ROW4_PINOUT
-                 
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+                 	
+0000b9 985e      	cbi COL0_PORT, COL0_PINOUT
+0000ba 985f      	cbi COL1_PORT, COL1_PINOUT
+0000bb 9828      	cbi COL2_PORT, COL2_PINOUT
+0000bc 9829      	cbi COL3_PORT, COL3_PINOUT
+0000bd 982a      	cbi COL4_PORT, COL4_PINOUT
+0000be 982b      	cbi COL5_PORT, COL5_PINOUT
+0000bf 982c      	cbi COL6_PORT, COL6_PINOUT
+0000c0 982d      	cbi COL7_PORT, COL7_PINOUT
+0000c1 985a      	cbi ROW4_PORT, ROW4_PINOUT
                  
                  ;	===================
                  ;		SIXTH ROW
                  ;	===================
                  
                  	
-<<<<<<< HEAD
-00009c 9a5b      	sbi ROW5_PORT, ROW5_PINOUT
+0000c2 9a5b      	sbi ROW5_PORT, ROW5_PINOUT
                  
-00009d 9a5e      	sbi COL0_PORT, COL0_PINOUT
-00009e 9a5f      	sbi COL1_PORT, COL1_PINOUT
-00009f 9a28      	sbi COL2_PORT, COL2_PINOUT
-0000a0 9a29      	sbi COL3_PORT, COL3_PINOUT
-0000a1 9a2a      	sbi COL4_PORT, COL4_PINOUT
-0000a2 9a2b      	sbi COL5_PORT, COL5_PINOUT
-0000a3 9a2c      	sbi COL6_PORT, COL6_PINOUT
-0000a4 9a2d      	sbi COL7_PORT, COL7_PINOUT
-                 
-                 	
-                 	
-                 	
+0000c3 9a5e      	sbi COL0_PORT, COL0_PINOUT
+0000c4 9a5f      	sbi COL1_PORT, COL1_PINOUT
+0000c5 9a28      	sbi COL2_PORT, COL2_PINOUT
+0000c6 9a29      	sbi COL3_PORT, COL3_PINOUT
+0000c7 9a2a      	sbi COL4_PORT, COL4_PINOUT
+0000c8 9a2b      	sbi COL5_PORT, COL5_PINOUT
+0000c9 9a2c      	sbi COL6_PORT, COL6_PINOUT
+0000ca 9a2d      	sbi COL7_PORT, COL7_PINOUT
                  
                  	
-0000a5 985e      	cbi COL0_PORT, COL0_PINOUT
-0000a6 985f      	cbi COL1_PORT, COL1_PINOUT
-0000a7 9828      	cbi COL2_PORT, COL2_PINOUT
-0000a8 9829      	cbi COL3_PORT, COL3_PINOUT
-0000a9 982a      	cbi COL4_PORT, COL4_PINOUT
-0000aa 982b      	cbi COL5_PORT, COL5_PINOUT
-0000ab 982c      	cbi COL6_PORT, COL6_PINOUT
-0000ac 982d      	cbi COL7_PORT, COL7_PINOUT
+                 	
+                 	
+                 
+                 	
+0000cb 985e      	cbi COL0_PORT, COL0_PINOUT
+0000cc 985f      	cbi COL1_PORT, COL1_PINOUT
+0000cd 9828      	cbi COL2_PORT, COL2_PINOUT
+0000ce 9829      	cbi COL3_PORT, COL3_PINOUT
+0000cf 982a      	cbi COL4_PORT, COL4_PINOUT
+0000d0 982b      	cbi COL5_PORT, COL5_PINOUT
+0000d1 982c      	cbi COL6_PORT, COL6_PINOUT
+0000d2 982d      	cbi COL7_PORT, COL7_PINOUT
                  
                  
-0000ad 985b      	cbi ROW5_PORT, ROW5_PINOUT
-=======
-00005e 9a5b      	sbi ROW5_PORT, ROW5_PINOUT
-                 
-                 
-00005f 985b      	cbi ROW5_PORT, ROW5_PINOUT
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+0000d3 985b      	cbi ROW5_PORT, ROW5_PINOUT
                  
                  
                  
@@ -1398,40 +1352,33 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  ;	===================
                  
                  	
-<<<<<<< HEAD
-0000ae 9a5c      	sbi ROW6_PORT, ROW6_PINOUT
+0000d4 9a5c      	sbi ROW6_PORT, ROW6_PINOUT
                  
-0000af 9a5e      	sbi COL0_PORT, COL0_PINOUT
-0000b0 9a5f      	sbi COL1_PORT, COL1_PINOUT
-0000b1 9a28      	sbi COL2_PORT, COL2_PINOUT
-0000b2 9a29      	sbi COL3_PORT, COL3_PINOUT
-0000b3 9a2a      	sbi COL4_PORT, COL4_PINOUT
-0000b4 9a2b      	sbi COL5_PORT, COL5_PINOUT
-0000b5 9a2c      	sbi COL6_PORT, COL6_PINOUT
-0000b6 9a2d      	sbi COL7_PORT, COL7_PINOUT
-                 
-                 	
-                 	
-                 	
+0000d5 9a5e      	sbi COL0_PORT, COL0_PINOUT
+0000d6 9a5f      	sbi COL1_PORT, COL1_PINOUT
+0000d7 9a28      	sbi COL2_PORT, COL2_PINOUT
+0000d8 9a29      	sbi COL3_PORT, COL3_PINOUT
+0000d9 9a2a      	sbi COL4_PORT, COL4_PINOUT
+0000da 9a2b      	sbi COL5_PORT, COL5_PINOUT
+0000db 9a2c      	sbi COL6_PORT, COL6_PINOUT
+0000dc 9a2d      	sbi COL7_PORT, COL7_PINOUT
                  
                  	
-0000b7 985e      	cbi COL0_PORT, COL0_PINOUT
-0000b8 985f      	cbi COL1_PORT, COL1_PINOUT
-0000b9 9828      	cbi COL2_PORT, COL2_PINOUT
-0000ba 9829      	cbi COL3_PORT, COL3_PINOUT
-0000bb 982a      	cbi COL4_PORT, COL4_PINOUT
-0000bc 982b      	cbi COL5_PORT, COL5_PINOUT
-0000bd 982c      	cbi COL6_PORT, COL6_PINOUT
-0000be 982d      	cbi COL7_PORT, COL7_PINOUT
+                 	
+                 	
+                 
+                 	
+0000dd 985e      	cbi COL0_PORT, COL0_PINOUT
+0000de 985f      	cbi COL1_PORT, COL1_PINOUT
+0000df 9828      	cbi COL2_PORT, COL2_PINOUT
+0000e0 9829      	cbi COL3_PORT, COL3_PINOUT
+0000e1 982a      	cbi COL4_PORT, COL4_PINOUT
+0000e2 982b      	cbi COL5_PORT, COL5_PINOUT
+0000e3 982c      	cbi COL6_PORT, COL6_PINOUT
+0000e4 982d      	cbi COL7_PORT, COL7_PINOUT
                  
                  
-0000bf 985c      	cbi ROW6_PORT, ROW6_PINOUT
-=======
-000060 9a5c      	sbi ROW6_PORT, ROW6_PINOUT
-                 
-                 
-000061 985c      	cbi ROW6_PORT, ROW6_PINOUT
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+0000e5 985c      	cbi ROW6_PORT, ROW6_PINOUT
                  
                  
                  ;	===================
@@ -1439,52 +1386,40 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  ;	===================
                  
                  	
-<<<<<<< HEAD
-0000c0 9a5d      	sbi ROW7_PORT, ROW7_PINOUT
+0000e6 9a5d      	sbi ROW7_PORT, ROW7_PINOUT
                  
-0000c1 9a5e      	sbi COL0_PORT, COL0_PINOUT
-0000c2 9a5f      	sbi COL1_PORT, COL1_PINOUT
-0000c3 9a28      	sbi COL2_PORT, COL2_PINOUT
-0000c4 9a29      	sbi COL3_PORT, COL3_PINOUT
-0000c5 9a2a      	sbi COL4_PORT, COL4_PINOUT
-0000c6 9a2b      	sbi COL5_PORT, COL5_PINOUT
-0000c7 9a2c      	sbi COL6_PORT, COL6_PINOUT
-0000c8 9a2d      	sbi COL7_PORT, COL7_PINOUT
-                 
-                 	
-                 	
-                 	
+0000e7 9a5e      	sbi COL0_PORT, COL0_PINOUT
+0000e8 9a5f      	sbi COL1_PORT, COL1_PINOUT
+0000e9 9a28      	sbi COL2_PORT, COL2_PINOUT
+0000ea 9a29      	sbi COL3_PORT, COL3_PINOUT
+0000eb 9a2a      	sbi COL4_PORT, COL4_PINOUT
+0000ec 9a2b      	sbi COL5_PORT, COL5_PINOUT
+0000ed 9a2c      	sbi COL6_PORT, COL6_PINOUT
+0000ee 9a2d      	sbi COL7_PORT, COL7_PINOUT
                  
                  	
-0000c9 985e      	cbi COL0_PORT, COL0_PINOUT
-0000ca 985f      	cbi COL1_PORT, COL1_PINOUT
-0000cb 9828      	cbi COL2_PORT, COL2_PINOUT
-0000cc 9829      	cbi COL3_PORT, COL3_PINOUT
-0000cd 982a      	cbi COL4_PORT, COL4_PINOUT
-0000ce 982b      	cbi COL5_PORT, COL5_PINOUT
-0000cf 982c      	cbi COL6_PORT, COL6_PINOUT
-0000d0 982d      	cbi COL7_PORT, COL7_PINOUT
+                 	
+                 	
+                 
+                 	
+0000ef 985e      	cbi COL0_PORT, COL0_PINOUT
+0000f0 985f      	cbi COL1_PORT, COL1_PINOUT
+0000f1 9828      	cbi COL2_PORT, COL2_PINOUT
+0000f2 9829      	cbi COL3_PORT, COL3_PINOUT
+0000f3 982a      	cbi COL4_PORT, COL4_PINOUT
+0000f4 982b      	cbi COL5_PORT, COL5_PINOUT
+0000f5 982c      	cbi COL6_PORT, COL6_PINOUT
+0000f6 982d      	cbi COL7_PORT, COL7_PINOUT
                  
                  
-0000d1 985d      	cbi ROW7_PORT, ROW7_PINOUT
+0000f7 985d      	cbi ROW7_PORT, ROW7_PINOUT
                  
-                 
-=======
-000062 9a5d      	sbi ROW7_PORT, ROW7_PINOUT
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
-                 
-                 
-000063 985d      	cbi ROW7_PORT, ROW7_PINOUT
-                 
-<<<<<<< HEAD
-0000d2 940c 0042 	jmp main
-=======
-000064 940c 0054 	jmp main
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+0000f8 940c 0068 	jmp main
                  
                  ; tick
                  isr_timerOF:
                  
+0000fa 9518      	reti
 
 
 RESOURCE USE INFORMATION
@@ -1504,11 +1439,7 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-<<<<<<< HEAD
-r13:   0 r14:   0 r15:   0 r16:  12 r17:   0 r18:   0 r19:   0 r20:   0 
-=======
-r13:   0 r14:   0 r15:   0 r16:  18 r17:  10 r18:   0 r19:   0 r20:   0 
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+r13:   0 r14:   0 r15:   0 r16:  30 r17:  10 r18:   0 r19:   0 r20:   0 
 r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 2 out of 35 (5.7%)
@@ -1519,47 +1450,26 @@ andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0
 brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :   0 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-<<<<<<< HEAD
 brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :  74 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   0 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   2 
-ld    :   0 ldd   :   0 ldi   :   4 lds   :   0 lpm   :   0 lsl   :   0 
-lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   8 pop   :   0 
-push  :   0 rcall :   0 ret   :   0 reti  :   1 rjmp  :   0 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :  72 sbic  :   0 sbis  :   0 
-=======
-brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :  10 cbr   :   0 
-clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
-clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   0 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   3 
-ld    :   0 ldd   :   0 ldi   :  10 lds   :   2 lpm   :   0 lsl   :   0 
+ld    :   0 ldd   :   0 ldi   :  10 lds   :   6 lpm   :   0 lsl   :   0 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   0 or    :   2 ori   :   0 out   :   8 pop   :   0 
 push  :   0 rcall :   0 ret   :   0 reti  :   1 rjmp  :   0 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   8 sbic  :   0 sbis  :   0 
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
-sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :  72 sbic  :   0 sbis  :   0 
+sbiw  :   0 sbr   :   4 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   2 
+sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   6 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-<<<<<<< HEAD
-Instructions used: 6 out of 113 (5.3%)
-=======
-Instructions used: 11 out of 113 (9.7%)
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+Instructions used: 12 out of 113 (10.6%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-<<<<<<< HEAD
-[.cseg] 0x000000 0x0001aa    326      0    326   32768   1.0%
-=======
-[.cseg] 0x000000 0x0000ce    110      0    110   32768   0.3%
->>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
+[.cseg] 0x000000 0x0001f6    406      0    406   32768   1.2%
 [.dseg] 0x000100 0x000122      0     34     34    2048   1.7%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
