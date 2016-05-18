@@ -100,50 +100,111 @@ init:
 	ldi rTemp, LOW(RAMEND)
 	out SPL, rTemp
 
+; Sätt alla I/O-portar till output, ettor i DDR representerar output. 
+	ldi rTemp, 0b11111111
+	out DDRB, rTemp
+	out DDRC, rTemp
+	out DDRD, rTemp
+
+	; Sätter joystickar till input, nolla i DDR representerar input. 
+	cbi DDRC, PC4 ; 
+	cbi DDRC, PC5 ; DDR klar
+
+	; Avaktiverar alla lampor
+	ldi rTemp, 0b00000000 
+	out PORTB, rTemp
+	out PORTC, rTemp
+	out PORTD, rTemp
+
+
+
 ; Game loop
 main: 
 
 ;	===================
 ;		FIRST ROW
 ;	===================
+	sbi ROW0_PORT, ROW0_PINOUT
 
 
-
-
+	cbi ROW0_PORT, ROW0_PINOUT
 ;	===================
 ;		SECOND ROW
 ;	===================
 
+	sbi ROW1_PORT, ROW1_PINOUT
 
+
+	cbi ROW1_PORT, ROW1_PINOUT
 
 ;	===================
 ;		THIRD ROW
 ;	===================
 
+	
+	sbi ROW2_PORT, ROW2_PINOUT
+
+
+	cbi ROW2_PORT, ROW2_PINOUT
+
+
 
 ;	===================
 ;		FOURTH ROW
 ;	===================
+	
+	
+	sbi ROW3_PORT, ROW3_PINOUT
+
+
+	cbi ROW3_PORT, ROW3_PINOUT
 
 
 ;	===================
 ;		FIFTH ROW
 ;	===================
 
+	
+	sbi ROW4_PORT, ROW4_PINOUT
+
+
+	cbi ROW4_PORT, ROW4_PINOUT
+
 
 ;	===================
 ;		SIXTH ROW
 ;	===================
+
+	
+	sbi ROW5_PORT, ROW5_PINOUT
+
+
+	cbi ROW5_PORT, ROW5_PINOUT
+
 
 
 ;	===================
 ;		SEVENTH ROW
 ;	===================
 
+	
+	sbi ROW6_PORT, ROW6_PINOUT
+
+
+	cbi ROW6_PORT, ROW6_PINOUT
+
 
 ;	===================
 ;		EIGTH ROW
 ;	===================
+
+	
+	sbi ROW7_PORT, ROW7_PINOUT
+
+
+	cbi ROW7_PORT, ROW7_PINOUT
+
+
 
 
 
