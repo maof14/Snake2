@@ -7,22 +7,18 @@
 
 
 ; [En lista med registerdefinitioner]
-/* t ex */
 .DEF rTemp				= r16
 .DEF rDirection			= r23
-/*…*/
 
 /* [En lista med konstanter] */
-/* t ex */
 .EQU NUM_COLUMNS		= 8
 .EQU MAX_LENGTH			= 25
-/* … */
+
 ; [Datasegmentet]
-/* t ex */
 .DSEG
 matrix:		.BYTE 8
 snake:		.BYTE MAX_LENGTH+1
-/* … */
+
 ; [Kodsegmentet]
 /* t ex */
 .CSEG
