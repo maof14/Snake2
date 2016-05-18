@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:29:36 2016
+=======
+AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:29:40 2016
+>>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
 
 
 EQU  SIGNATURE_000 0000001e
@@ -696,6 +700,7 @@ EQU  TWIaddr      00000030
 EQU  SPMRaddr     00000032
 EQU  INT_VECTORS_SIZE 00000034
 DEF  rTemp        r16
+DEF  rTemp2       r17
 DEF  rDirection   r23
 EQU  NUM_COLUMNS  00000008
 EQU  MAX_LENGTH   00000019
@@ -750,5 +755,10 @@ EQU  ROW7_PINOUT  00000005
 DSEG matrix       00000100
 DSEG snake        00000108
 CSEG init         00000034
+<<<<<<< HEAD
 CSEG main         00000042
 CSEG isr_timerOF  000000d4
+=======
+CSEG isr_timerOF  00000066
+CSEG main         00000054
+>>>>>>> 5203aabefc8287a6ddefa5e25763993fe677c537
