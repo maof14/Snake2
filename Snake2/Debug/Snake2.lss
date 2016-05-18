@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:03:22 2016
+AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:09:34 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -1087,6 +1087,50 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  
                  ; Game loop
                  main: 
+                 
+                 ;	===================
+                 ;		FIRST ROW
+                 ;	===================
+                 
+                 
+                 
+                 
+                 ;	===================
+                 ;		SECOND ROW
+                 ;	===================
+                 
+                 
+                 
+                 ;	===================
+                 ;		THIRD ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		FOURTH ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		FIFTH ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		SIXTH ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		SEVENTH ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		EIGTH ROW
+                 ;	===================
+                 
+                 
                  
 000038 940c 0038 	jmp main
                  
