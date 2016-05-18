@@ -14,7 +14,7 @@
 .EQU NUM_COLUMNS		= 8
 .EQU MAX_LENGTH			= 25
 
-; Definera namn f�r alla kolumner f�r att dessa ska bli enkelt att referera till
+; Definera namn för alla kolumner för att dessa ska bli enkelt att referera till
 .EQU COL0_DDR			= DDRD
 .EQU COL0_PORT			= PORTD
 .EQU COL0_PINOUT		= PD6
@@ -47,7 +47,7 @@
 .EQU COL7_PORT			= PORTB
 .EQU COL7_PINOUT		= PB5
 
-; Definera namn f�r alla rader. 
+; Definera namn för alla rader. 
 .EQU ROW0_DDR			= DDRC
 .EQU ROW0_PORT			= PORTC
 .EQU ROW0_PINOUT		= PC0
@@ -95,33 +95,56 @@ snake:		.BYTE MAX_LENGTH+1
 	jmp isr_timerOF
 .ORG INT_VECTORS_SIZE
 init:
-	// S�tt stackpekaren till h�gsta minnesadressen
+	// Sätt stackpekaren till högsta minnesadressen
 	ldi rTemp, HIGH(RAMEND)
 	out SPH, rTemp
 	ldi rTemp, LOW(RAMEND)
 	out SPL, rTemp
 
-	; Initiering av portar f�r I/O
+	; Initiering av portar för I/O
 	ldi rTemp, 0b11111111	; ettor
 	and rTemp2, rTemp		; nollor
 
-	; S�tt alla I/O-portar till output, ettor i DDR representerar output. 
+	; Sätt alla I/O-portar till output, ettor i DDR representerar output. 
 	ldi rTemp, 0b11111111
 	out DDRB, rTemp
 	out DDRC, rTemp
 	out DDRD, rTemp
 
-	; Tv� portar p� DDRC �r joystick X och Y
+	; Två portar på DDRC är joystick X och Y
 	cbi DDRC, PC4
 	cbi DDRC, PC5
 
-	; Sl�ck alla lampor, s�tt nollp� alla portar. 
+	; Släck alla lampor, sätt nollpå alla portar. 
 	out PORTB, rTemp2
 	out PORTC, rTemp2
 	out PORTD, rTemp2
 	
 	; Initiering av timer
+	; Timer-konfiguration start
+	; 1. Konfigurera pre-scaling genom att sätta bit 0-2 i TCCR0B
+	lds r16, TCCR0B					; ta nuvarande värde på TCCR0B
+	sbr r16,(1<<CS00)|(1<<CS02)		; Manipulera de enskilda bitarna i temporär TCCRB0. (prescales to 1024. rSettings = 0b00000101)
+	sts TCCR0B, r16
 
+	; 2. Aktivera globala avbrott genom instruktionen sei
+	sei
+
+	; 3. Aktivera overflow-avbrottet för Timer0 genom att sätta bit 0 i TIMSK0 till 1.
+	lds r16, TIMSK0					; Ta nuvarande värde på TIMSK0
+	sbr r16,(1<<TOIE0)					; Vad gör denna? rSettings = 0b00000001
+	sts TIMSK0, r16					; sts = out-instruktion fast för icke extendat I/O-space
+	; Timer-konfiguration slut. 
+
+	; Konfiguration av A/D-omvandlaren
+	lds r16, ADMUX
+	sbr r16,(1<<REFS0)|(0<<REFS1)|(1<<ADLAR) ; ADLAR ändrar till 8-bitarsläge för input. (mindre precision)
+	sts ADMUX, r16
+
+	lds r16, ADCSRA
+	sbr r16,(1<<ADPS0)|(1<<ADPS1)|(1<<ADPS2)|(1<<ADEN)
+	sts ADCSRA, r16
+	// Konfiguration av A/D-omvandlaren slut. 
 ; Game loop
 main: 
 
