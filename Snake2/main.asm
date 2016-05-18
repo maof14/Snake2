@@ -121,6 +121,24 @@ init:
 	out PORTD, rTemp2
 	
 	; Initiering av timer
+	; 1. Konfigurera pre-scaling genom att sätta bit 0-2 i TCCR0B
+	ldi rTemp, 0x00
+	ldi rTemp2, 0x00
+	ldi rTemp, (1<<CS00)|(1<<CS02)
+	lds rTemp2, TCCR0B
+	or rTemp, rTemp2
+	sts TCCR0B, rTemp
+
+	; 2. Aktivera globala avbrott genom instruktionen sei
+	sei
+
+	ldi rTemp, 0x00
+	ldi rTemp2, 0x00
+	; 3. Aktivera overflow-avbrottet för Timer0 genom att sätta bit 0 i TIMSK0 till 1.
+	ldi rTemp, (1<<TOIE0)
+	lds rTemp2, TIMSK0
+	or rTemp, rTemp2
+	sts TIMSK0, rTemp
 
 ; Game loop
 main: 

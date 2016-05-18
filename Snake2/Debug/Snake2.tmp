@@ -25,7 +25,7 @@
   <matrix><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>85</LINE></matrix>
   <snake><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>86</LINE></snake>
   <init><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>97</LINE></init>
-  <isr_timerOF><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>214</LINE></isr_timerOF>
-  <main><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>126</LINE></main>
+  <isr_timerOF><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>232</LINE></isr_timerOF>
+  <main><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>144</LINE></main>
  </LABELS>
 </ASSEMBLER_INFO>
