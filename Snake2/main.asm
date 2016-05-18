@@ -12,6 +12,7 @@
 .DEF rPORTC				= r19
 .DEF rPORTD				= r20
 .DEF rMellan			= r21
+.DEF rMellan2			= r22
 .DEF rDirection			= r23
 
 /* [En lista med konstanter] */
@@ -146,6 +147,7 @@ init:
 	sbr rTemp,(1<<REFS0)|(0<<REFS1)|(1<<ADLAR) ; ADLAR ändrar till 8-bitarsläge för input. (mindre precision)
 	sts ADMUX, rTemp
 
+	; 
 	ldi rTemp, 0x00
 	lds rTemp, ADCSRA
 	sbr rTemp,(1<<ADPS0)|(1<<ADPS1)|(1<<ADPS2)|(1<<ADEN)
@@ -178,30 +180,53 @@ iterate_x:
 	lds rTemp, ADCH
 	mov rMellan, rTemp
 
+	; X SLut
+
+	; Välj y-axel
+	ldi rTemp, 0x00
+	lds rTemp, ADMUX
+	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(0<<MUX0) ; (0b0100 = 5)
+	sts ADMUX, rTemp
+
+	; Starta A/D-konvertering. 
+	ldi rTemp, 0x00
+	lds rTemp, ADCSRA		; Get ADCSRA
+	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
+	sts ADCSRA, rTemp		; Ladda in
+	
+iterate_y:
+	ldi rTemp, 0x00
+	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
+	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
+	jmp iterate_y			; Iterera
+	nop
+
+	;lds rTemp, ADCL
+	lds rTemp, ADCH
+	mov rMellan2, rTemp
+
 ;	===================
 ;		FIRST ROW
 ;	===================
 	sbi ROW0_PORT, ROW0_PINOUT
 
 	;ldi rTemp, 0b00110011
-
+	mov rTemp, rMellan
 	rcall Laddarad
 	
 	rcall clear
 
 	cbi ROW0_PORT, ROW0_PINOUT
+
 ;	===================
 ;		SECOND ROW
 ;	===================
-/*
 	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
 
-	ldi rTemp, 0b11001100
-
+	mov rTemp, rMellan2
 	rcall Laddarad
 	
 	rcall clear
-
 
 
 	cbi ROW1_PORT, ROW1_PINOUT //Avaktiverar raden
@@ -209,7 +234,7 @@ iterate_x:
 ;	===================
 ;		THIRD ROW
 ;	===================
-
+/*
 	
 	sbi ROW2_PORT, ROW2_PINOUT
 
@@ -314,21 +339,21 @@ isr_timerOF:
 
 Laddarad:
 
-	bst rMellan, 7
+	bst rTemp, 7
 	bld rPORTD, 6
-	bst rMellan, 6
+	bst rTemp, 6
 	bld rPORTD, 7
-	bst rMellan, 5
+	bst rTemp, 5
 	bld rPORTB, 0
-	bst rMellan, 4
+	bst rTemp, 4
 	bld rPORTB, 1
-	bst rMellan, 3
+	bst rTemp, 3
 	bld rPORTB, 2
-	bst rMellan, 2
+	bst rTemp, 2
 	bld rPORTB, 3
-	bst rMellan, 1
+	bst rTemp, 1
 	bld rPORTB, 4
-	bst rMellan, 0
+	bst rTemp, 0
 	bld rPORTB, 5
 
 	out PORTD, rPORTD
