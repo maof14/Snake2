@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:14:04 2016
+=======
+AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:09:34 2016
+>>>>>>> refs/remotes/origin/master
 
 
 EQU  SIGNATURE_000 0000001e

@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:14:04 2016
+=======
+AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 18 10:09:34 2016
+>>>>>>> refs/remotes/origin/master
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -1098,9 +1102,57 @@ AVRASM ver. 2.2.0  c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
 00003d 983c      	cbi DDRC, PC4
 00003e 983d      	cbi DDRC, PC5
                  
+<<<<<<< HEAD
 00003f b915      	out PORTB, rTemp2
 000040 b918      	out PORTC, rTemp2
 000041 b91b      	out PORTD, rTemp2
+=======
+                 ;	===================
+                 ;		FIRST ROW
+                 ;	===================
+                 
+                 
+                 
+                 
+                 ;	===================
+                 ;		SECOND ROW
+                 ;	===================
+                 
+                 
+                 
+                 ;	===================
+                 ;		THIRD ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		FOURTH ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		FIFTH ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		SIXTH ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		SEVENTH ROW
+                 ;	===================
+                 
+                 
+                 ;	===================
+                 ;		EIGTH ROW
+                 ;	===================
+                 
+                 
+                 
+000038 940c 0038 	jmp main
+>>>>>>> refs/remotes/origin/master
                  
                  	; Initieringar av timer och sånt... 
                  
