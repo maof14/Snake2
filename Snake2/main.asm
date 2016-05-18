@@ -101,21 +101,16 @@ init:
 	ldi rTemp, LOW(RAMEND)
 	out SPL, rTemp
 
-<<<<<<< HEAD
 	; Initiering av portar för I/O
 	ldi rTemp, 0b11111111	; ettor
 	and rTemp2, rTemp		; nollor
 
-	; Sätt alla DDR till output, ettor på allt. 
-=======
-; Sätt alla I/O-portar till output, ettor i DDR representerar output. 
+	; Sätt alla I/O-portar till output, ettor i DDR representerar output. 
 	ldi rTemp, 0b11111111
->>>>>>> refs/remotes/origin/master
 	out DDRB, rTemp
 	out DDRC, rTemp
 	out DDRD, rTemp
 
-<<<<<<< HEAD
 	; Två portar på DDRC är joystick X och Y
 	cbi DDRC, PC4
 	cbi DDRC, PC5
@@ -124,24 +119,8 @@ init:
 	out PORTB, rTemp2
 	out PORTC, rTemp2
 	out PORTD, rTemp2
-
-	; Initieringar av timer och sånt... 
-
-; Game loop
-main: 
 	
-=======
-	; Sätter joystickar till input, nolla i DDR representerar input. 
-	cbi DDRC, PC4 ; 
-	cbi DDRC, PC5 ; DDR klar
-
-	; Avaktiverar alla lampor
-	ldi rTemp, 0b00000000 
-	out PORTB, rTemp
-	out PORTC, rTemp
-	out PORTD, rTemp
-
-
+	; Initiering av timer
 
 ; Game loop
 main: 
@@ -229,12 +208,8 @@ main:
 
 	cbi ROW7_PORT, ROW7_PINOUT
 
-
-
-
-
->>>>>>> refs/remotes/origin/master
 	jmp main
+
 ; tick
 isr_timerOF:
 
