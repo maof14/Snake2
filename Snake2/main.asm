@@ -50,7 +50,7 @@
 .EQU COL7_PORT			= PORTB
 .EQU COL7_PINOUT		= PB5
 
-; Definera namn för alla rader. 
+; Definera namn f�r alla rader. 
 .EQU ROW0_DDR			= DDRC
 .EQU ROW0_PORT			= PORTC
 .EQU ROW0_PINOUT		= PC0
@@ -98,13 +98,13 @@ snake:		.BYTE MAX_LENGTH+1
 	jmp isr_timerOF
 .ORG INT_VECTORS_SIZE
 init:
-	// Sätt stackpekaren till högsta minnesadressen
+	// Sätt stackpekaren till h�gsta minnesadressen
 	ldi rTemp, HIGH(RAMEND)
 	out SPH, rTemp
 	ldi rTemp, LOW(RAMEND)
 	out SPL, rTemp
 
-	; Initiering av portar för I/O
+	; Initiering av portar f�r I/O
 	ldi rTemp, 0b11111111	; ettor
 	and rTemp2, rTemp		; nollor
 
@@ -114,7 +114,7 @@ init:
 	out DDRC, rTemp
 	out DDRD, rTemp
 
-	; Två portar på DDRC är joystick X och Y
+	; Tv� portar p� DDRC �r joystick X och Y
 	cbi DDRC, PC4
 	cbi DDRC, PC5
 
@@ -132,12 +132,6 @@ init:
 	or rTemp, rTemp2
 	sts TCCR0B, rTemp
 
-	; Timer-konfiguration start
-	; 1. Konfigurera pre-scaling genom att sätta bit 0-2 i TCCR0B
-	lds r16, TCCR0B					; ta nuvarande värde på TCCR0B
-	sbr r16,(1<<CS00)|(1<<CS02)		; Manipulera de enskilda bitarna i temporär TCCRB0. (prescales to 1024. rSettings = 0b00000101)
-	sts TCCR0B, r16
-
 	; 2. Aktivera globala avbrott genom instruktionen sei
 	sei
 
@@ -149,20 +143,16 @@ init:
 	or rTemp, rTemp2
 	sts TIMSK0, rTemp
 
-	; 3. Aktivera overflow-avbrottet för Timer0 genom att sätta bit 0 i TIMSK0 till 1.
-	lds r16, TIMSK0					; Ta nuvarande värde på TIMSK0
-	sbr r16,(1<<TOIE0)					; Vad gör denna? rSettings = 0b00000001
-	sts TIMSK0, r16					; sts = out-instruktion fast för icke extendat I/O-space
-	; Timer-konfiguration slut. 
-
 	; Konfiguration av A/D-omvandlaren
-	lds r16, ADMUX
-	sbr r16,(1<<REFS0)|(0<<REFS1)|(1<<ADLAR) ; ADLAR ändrar till 8-bitarsläge för input. (mindre precision)
-	sts ADMUX, r16
+	ldi rTemp, 0x00
+	lds rTemp, ADMUX
+	sbr rTemp,(1<<REFS0)|(0<<REFS1)|(1<<ADLAR) ; ADLAR �ndrar till 8-bitarsl�ge f�r input. (mindre precision)
+	sts ADMUX, rTemp
 
-	lds r16, ADCSRA
-	sbr r16,(1<<ADPS0)|(1<<ADPS1)|(1<<ADPS2)|(1<<ADEN)
-	sts ADCSRA, r16
+	ldi rTemp, 0x00
+	lds rTemp, ADCSRA
+	sbr rTemp,(1<<ADPS0)|(1<<ADPS1)|(1<<ADPS2)|(1<<ADEN)
+	sts ADCSRA, rTemp
 	// Konfiguration av A/D-omvandlaren slut. 
 
 ; Game loop
