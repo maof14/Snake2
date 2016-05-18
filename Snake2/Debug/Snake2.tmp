@@ -22,10 +22,10 @@
   <FILE>Snake2.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <matrix><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>84</LINE></matrix>
-  <snake><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>85</LINE></snake>
-  <init><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>96</LINE></init>
-  <isr_timerOF><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>109</LINE></isr_timerOF>
-  <main><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>104</LINE></main>
+  <matrix><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>85</LINE></matrix>
+  <snake><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>86</LINE></snake>
+  <init><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>97</LINE></init>
+  <isr_timerOF><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>129</LINE></isr_timerOF>
+  <main><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>125</LINE></main>
  </LABELS>
 </ASSEMBLER_INFO>

@@ -7,6 +7,7 @@
 
 ; [En lista med registerdefinitioner]
 .DEF rTemp				= r16
+.DEF rTemp2				= r17
 .DEF rDirection			= r23
 
 /* [En lista med konstanter] */
@@ -100,11 +101,30 @@ init:
 	ldi rTemp, LOW(RAMEND)
 	out SPL, rTemp
 
+	; Initiering av portar för I/O
+	ldi rTemp, 0b11111111	; ettor
+	and rTemp2, rTemp		; nollor
+
+	; Sätt alla DDR till output, ettor på allt. 
+	out DDRB, rTemp
+	out DDRC, rTemp
+	out DDRD, rTemp
+
+	; Två portar på DDRC är joystick X och Y
+	cbi DDRC, PC4
+	cbi DDRC, PC5
+
+	; Släck alla lampor, sätt nollpå alla portar. 
+	out PORTB, rTemp2
+	out PORTC, rTemp2
+	out PORTD, rTemp2
+
+	; Initieringar av timer och sånt... 
+
 ; Game loop
 main: 
-
+	
 	jmp main
-
 ; tick
 isr_timerOF:
 
