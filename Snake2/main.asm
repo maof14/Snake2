@@ -25,6 +25,7 @@ snake:		.BYTE MAX_LENGTH+1
 // Interrupt vector table
 .ORG 0x0000
 	jmp init // Reset vector
+.ORG 0x0020
 //... fler interrupts
 .ORG INT_VECTORS_SIZE
 init:
@@ -33,3 +34,13 @@ init:
 	out SPH, rTemp
 	ldi rTemp, LOW(RAMEND)
 	out SPL, rTemp
+
+; Game loop
+main: 
+
+	jmp main
+
+; tick
+isr_timerOF:
+
+	reti

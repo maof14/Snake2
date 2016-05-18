@@ -22,8 +22,10 @@
   <FILE>Snake2.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <matrix><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>23</LINE></matrix>
-  <snake><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>24</LINE></snake>
-  <init><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>34</LINE></init>
+  <matrix><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>19</LINE></matrix>
+  <snake><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>20</LINE></snake>
+  <init><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>31</LINE></init>
+  <main><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>39</LINE></main>
+  <isr_timerOF><FILE>c:\users\mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>44</LINE></isr_timerOF>
  </LABELS>
 </ASSEMBLER_INFO>
