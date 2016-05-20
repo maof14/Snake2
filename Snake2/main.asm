@@ -154,6 +154,9 @@ init:
 	sts ADCSRA, rTemp
 	// Konfiguration av A/D-omvandlaren slut. 
 
+
+	sbi COL0_PORT, COL0_PINOUT
+
 ; Game loop
 main: 
 
@@ -221,7 +224,7 @@ iterate_y:
 ;	===================
 ;		SECOND ROW
 ;	===================
-	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
+/*	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
 
 	mov rTemp, rMellan2
 	rcall Laddarad
@@ -230,7 +233,7 @@ iterate_y:
 
 
 	cbi ROW1_PORT, ROW1_PINOUT //Avaktiverar raden
-
+	*/
 ;	===================
 ;		THIRD ROW
 ;	===================
