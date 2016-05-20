@@ -12,7 +12,8 @@
 .DEF rPORTC				= r19
 .DEF rPORTD				= r20
 .DEF rSnake				= r21
-;.DEF rMellan2			= r22
+.DEF rUpdateFlag		= r22
+.DEF rUpdateDelay		= r25
 .DEF rDirectionX		= r23
 .DEF rDirectionY		= r24
 
@@ -159,10 +160,11 @@ init:
 	rcall clear
 
 	ldi rSnake, 0b10000000
+	ldi rUpdateFlag, 0
+	ldi rUpdateDelay, 0
 
 ; Game loop
 main: 
-
 	; Välj x-axel
 	ldi rTemp, 0x00
 	lds rTemp, ADMUX
@@ -185,10 +187,8 @@ iterate_x:
 	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
 	; mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
 
-	; ADCH > 128 = vänster
-	; ADCH < 128 = höger
-
-	; X SLut
+	; rDirectionX > 128 = vänster
+	; rDirectionX < 128 = höger
 
 	; Välj y-axel
 	ldi rTemp, 0x00
@@ -209,28 +209,19 @@ iterate_y:
 	jmp iterate_y			; Iterera
 	nop
 
-	lds rDirectionY, ADCH	; Läs av resultat
+	lds rDirectionY, ADCH		; Läs av resultat
 	; mov rTemp, rDirectionY
 
-	; ADCH < 128 = neråt
-	; ADCH > 128 = uppåt
+	; rDirectionY < 128 = neråt
+	; rDirectionY > 128 = uppåt
 
 	cpi rDirectionX, 0b10001000 ; compare x-value with 128 + 8
-	brpl move_right				; if true, move right
-	
-	cpi rDirectionX, 0b10001000
-	brmi move_left
+	brlo move_right				; if true, move right
 
-	; if false?? 
-
-
-	/*jmp end_if
+	/* jmp end_if
 	nop */
 
-	end_if:
-
-	; if slut
-	mov rTemp, rSnake
+	mov rTemp, rSnake			; Kopiera resultat från rSnake till rTemp
 
 ;	===================
 ;		FIRST ROW
@@ -354,7 +345,7 @@ iterate_y:
 	jmp main
 
 isr_timerOF:
-	
+	ldi rUpdateFlag, 0b00000001
 	reti
 
 Laddarad:
@@ -381,7 +372,6 @@ Laddarad:
 
 	ret
 
-
 clear:
 	
 	cbi COL0_PORT, COL0_PINOUT
@@ -396,9 +386,13 @@ clear:
 	ret
 
 move_right:
-	lsr rSnake
+	mov rTemp, rSnake
+	lsr rTemp
+	mov rSnake, rTemp
 	ret
 
 move_left:
-	lsl rSnake
+	mov rTemp, rSnake
+	lsl rTemp
+	mov rSnake, rTemp
 	ret

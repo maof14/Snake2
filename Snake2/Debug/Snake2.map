@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Fri May 20 11:25:15 2016
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Fri May 20 11:57:33 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -701,6 +701,8 @@ DEF  rPORTB       r18
 DEF  rPORTC       r19
 DEF  rPORTD       r20
 DEF  rSnake       r21
+DEF  rUpdateFlag  r22
+DEF  rUpdateDelay r25
 DEF  rDirectionX  r23
 DEF  rDirectionY  r24
 EQU  NUM_COLUMNS  00000008
@@ -756,12 +758,13 @@ EQU  ROW7_PINOUT  00000005
 DSEG matrix       00000100
 DSEG snake        00000108
 CSEG init         00000034
-CSEG isr_timerOF  00000093
-CSEG clear        000000a7
-CSEG main         0000005e
-CSEG iterate_x    0000006a
-CSEG iterate_y    0000007f
-CSEG move_right   000000b0
-CSEG move_left    000000b2
-CSEG end_if       0000008c
-CSEG Laddarad     00000094
+CSEG isr_timerOF  00000099
+CSEG clear        000000ae
+CSEG main         0000005f
+CSEG iterate_x    0000006b
+CSEG iterate_y    00000080
+CSEG move_right   000000b7
+CSEG LightTheLights 00000091
+CSEG skip         00000093
+CSEG Laddarad     0000009b
+CSEG move_left    000000bb
