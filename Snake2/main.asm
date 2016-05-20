@@ -11,9 +11,10 @@
 .DEF rPORTB				= r18
 .DEF rPORTC				= r19
 .DEF rPORTD				= r20
-.DEF rMellan			= r21
-.DEF rMellan2			= r22
-.DEF rDirection			= r23
+;.DEF rMellan			= r21
+;.DEF rMellan2			= r22
+.DEF rDirectionX		= r23
+.DEF rDirectionY		= r24
 
 /* [En lista med konstanter] */
 .EQU NUM_COLUMNS		= 8
@@ -129,7 +130,7 @@ init:
 	; 1. Konfigurera pre-scaling genom att sätta bit 0-2 i TCCR0B
 	ldi rTemp, 0x00
 	lds rTemp, TCCR0B
-	sbr rTemp,(1<<CS00)|(1<<CS02)
+	sbr rTemp,(1<<CS00)|(0<<CS01)|(1<<CS02)
 	sts TCCR0B, rTemp
 
 	; 2. Aktivera globala avbrott genom instruktionen sei
@@ -176,9 +177,11 @@ iterate_x:
 	jmp iterate_x			; Iterera
 	nop
 
-	;lds rTemp, ADCL
-	lds rTemp, ADCH
-	mov rMellan, rTemp
+	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
+	mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
+
+	; ADCH > 128 = vänster
+	; ADCH < 128 = höger
 
 	; X SLut
 
@@ -201,19 +204,18 @@ iterate_y:
 	jmp iterate_y			; Iterera
 	nop
 
-	;lds rTemp, ADCL
-	lds rTemp, ADCH
-	mov rMellan2, rTemp
+	lds rDirectionY, ADCH	; Läs av resultat
+	mov rTemp, rDirectionY
+
+	; ADCH < 128 = neråt
+	; ADCH > 128 = uppåt
 
 ;	===================
 ;		FIRST ROW
 ;	===================
 	sbi ROW0_PORT, ROW0_PINOUT
 
-	;ldi rTemp, 0b00110011
-	mov rTemp, rMellan
-	rcall Laddarad
-	
+	rcall Laddarad	
 	rcall clear
 
 	cbi ROW0_PORT, ROW0_PINOUT
@@ -223,11 +225,8 @@ iterate_y:
 ;	===================
 	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
 
-	mov rTemp, rMellan2
 	rcall Laddarad
-	
 	rcall clear
-
 
 	cbi ROW1_PORT, ROW1_PINOUT //Avaktiverar raden
 
@@ -332,7 +331,6 @@ iterate_y:
 	*/
 	jmp main
 
-; tick
 isr_timerOF:
 	
 	reti
