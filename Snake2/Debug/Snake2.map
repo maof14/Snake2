@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Fri May 20 10:45:46 2016
-=======
-AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Fri May 20 10:38:54 2016
->>>>>>> 046ae4c35ea02a1c26502f4165938a365256ad42
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Fri May 20 11:25:15 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -704,6 +700,7 @@ DEF  rTemp2       r17
 DEF  rPORTB       r18
 DEF  rPORTC       r19
 DEF  rPORTD       r20
+DEF  rSnake       r21
 DEF  rDirectionX  r23
 DEF  rDirectionY  r24
 EQU  NUM_COLUMNS  00000008
@@ -759,18 +756,12 @@ EQU  ROW7_PINOUT  00000005
 DSEG matrix       00000100
 DSEG snake        00000108
 CSEG init         00000034
-<<<<<<< HEAD
-CSEG isr_timerOF  00000090
-CSEG main         0000005d
-CSEG iterate_x    00000069
+CSEG isr_timerOF  00000093
+CSEG clear        000000a7
+CSEG main         0000005e
+CSEG iterate_x    0000006a
 CSEG iterate_y    0000007f
-CSEG Laddarad     00000091
-CSEG clear        000000a4
-=======
-CSEG isr_timerOF  00000092
-CSEG main         0000005c
-CSEG iterate_x    00000068
-CSEG iterate_y    0000007e
-CSEG Laddarad     00000098
-CSEG clear        000000ab
->>>>>>> 046ae4c35ea02a1c26502f4165938a365256ad42
+CSEG move_right   000000b0
+CSEG move_left    000000b2
+CSEG end_if       0000008c
+CSEG Laddarad     00000094

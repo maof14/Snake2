@@ -11,7 +11,7 @@
 .DEF rPORTB				= r18
 .DEF rPORTC				= r19
 .DEF rPORTD				= r20
-;.DEF rMellan			= r21
+.DEF rSnake				= r21
 ;.DEF rMellan2			= r22
 .DEF rDirectionX		= r23
 .DEF rDirectionY		= r24
@@ -155,8 +155,10 @@ init:
 	sts ADCSRA, rTemp
 	// Konfiguration av A/D-omvandlaren slut. 
 
+	;sbi COL0_PORT, COL0_PINOUT
+	rcall clear
 
-	sbi COL0_PORT, COL0_PINOUT
+	ldi rSnake, 0b10000000
 
 ; Game loop
 main: 
@@ -181,7 +183,7 @@ iterate_x:
 	nop
 
 	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
-	mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
+	; mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
 
 	; ADCH > 128 = vänster
 	; ADCH < 128 = höger
@@ -208,10 +210,27 @@ iterate_y:
 	nop
 
 	lds rDirectionY, ADCH	; Läs av resultat
-	mov rTemp, rDirectionY
+	; mov rTemp, rDirectionY
 
 	; ADCH < 128 = neråt
 	; ADCH > 128 = uppåt
+
+	cpi rDirectionX, 0b10001000 ; compare x-value with 128 + 8
+	brpl move_right				; if true, move right
+	
+	cpi rDirectionX, 0b10001000
+	brmi move_left
+
+	; if false?? 
+
+
+	/*jmp end_if
+	nop */
+
+	end_if:
+
+	; if slut
+	mov rTemp, rSnake
 
 ;	===================
 ;		FIRST ROW
@@ -374,4 +393,12 @@ clear:
 	cbi COL6_PORT, COL6_PINOUT
 	cbi COL7_PORT, COL7_PINOUT
 	
+	ret
+
+move_right:
+	lsr rSnake
+	ret
+
+move_left:
+	lsl rSnake
 	ret
