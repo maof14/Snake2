@@ -1,18 +1,30 @@
 <ASSEMBLER_INFO>
  <VERSION>2.2.0</VERSION>
  <DEVICE>"ATmega328P"</DEVICE>
+<<<<<<< HEAD
  <WORKING_DIR>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\Debug</WORKING_DIR>
+=======
+ <WORKING_DIR>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\Debug</WORKING_DIR>
+>>>>>>> 046ae4c35ea02a1c26502f4165938a365256ad42
  <INCLUDE_PATH>
   <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc</DIR>
   <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
   <DIR></DIR>
  </INCLUDE_PATH>
+<<<<<<< HEAD
  <SOURCE_FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</SOURCE_FILE>
+=======
+ <SOURCE_FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</SOURCE_FILE>
+>>>>>>> 046ae4c35ea02a1c26502f4165938a365256ad42
  <INCLUDED_FILES>
   <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
+<<<<<<< HEAD
   <FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\Debug\Snake2.obj</FILE>
+=======
+  <FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\Debug\Snake2.obj</FILE>
+>>>>>>> 046ae4c35ea02a1c26502f4165938a365256ad42
  </OBJECT_FILES>
  <HEX_FILES>
   <FILE>Snake2.hex</FILE>
@@ -22,6 +34,7 @@
   <FILE>Snake2.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
+<<<<<<< HEAD
   <matrix><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>90</LINE></matrix>
   <snake><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>91</LINE></snake>
   <init><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>102</LINE></init>
@@ -31,5 +44,16 @@
   <iterate_y><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>200</LINE></iterate_y>
   <Laddarad><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>343</LINE></Laddarad>
   <clear><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>368</LINE></clear>
+=======
+  <matrix><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>91</LINE></matrix>
+  <snake><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>92</LINE></snake>
+  <init><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>103</LINE></init>
+  <isr_timerOF><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>341</LINE></isr_timerOF>
+  <main><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>159</LINE></main>
+  <iterate_x><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>173</LINE></iterate_x>
+  <iterate_y><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>200</LINE></iterate_y>
+  <Laddarad><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>349</LINE></Laddarad>
+  <clear><FILE>C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>374</LINE></clear>
+>>>>>>> 046ae4c35ea02a1c26502f4165938a365256ad42
  </LABELS>
 </ASSEMBLER_INFO>
