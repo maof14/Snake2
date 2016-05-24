@@ -162,6 +162,7 @@ init:
 	ldi rSnake, 0b00000001
 	ldi rUpdateFlag, 0
 	ldi rUpdateDelay, 0
+	ldi rDirection, 0
 
 ; Game loop
 main:
@@ -344,7 +345,6 @@ updateLoop:
 continueUpdate:	
 	ldi rUpdateDelay, 0b00000000
 
-	; xaxel start 
 	; Välj x-axel
 	ldi rTemp, 0x00
 	lds rTemp, ADMUX
@@ -365,14 +365,11 @@ iterate_x:
 	nop
 
 	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
-	; mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
 
-	; xaxel slut
-
-	cpi rDirectionX, 165
+	cpi rDirectionX, 165	; Deadzone
 	brsh go_left
 
-	cpi rDirectionX, 90
+	cpi rDirectionX, 90		; Deadzone
 	brlo go_right
 
 	jmp checkdir
@@ -390,6 +387,9 @@ iterate_x:
 		ldi rDirection, 0b0000010
 	
 checkdir:
+
+	cpi rDirection, 0
+	breq outsidecheckdone
 
 	cpi rDirection, 1
 	breq left

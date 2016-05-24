@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 15:25:10 2016
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 15:40:11 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -1084,7 +1084,7 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  .ORG 0x0000
 000000 940c 0034 	jmp init // Reset vector
                  .ORG 0x0020
-000020 940c 00a3 	jmp isr_timerOF
+000020 940c 00a6 	jmp isr_timerOF
                  .ORG INT_VECTORS_SIZE
                  init:
                  	// SÃ¤tt stackpekaren till högsta minnesadressen
@@ -1142,11 +1142,12 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  	// Konfiguration av A/D-omvandlaren slut. 
                  
                  	;sbi COL0_PORT, COL0_PINOUT
-00005a d05e      	rcall clear
+00005a d061      	rcall clear
                  
 00005b e051      	ldi rSnake, 0b00000001
 00005c e060      	ldi rUpdateFlag, 0
 00005d e090      	ldi rUpdateDelay, 0
+00005e e010      	ldi rDirection, 0
                  
                  ; Game loop
                  main:
@@ -1191,12 +1192,12 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  ;		FIRST ROWs
                  ;	===================
                  
-00005e 9a40      	sbi ROW0_PORT, ROW0_PINOUT
+00005f 9a40      	sbi ROW0_PORT, ROW0_PINOUT
                  
-00005f d045      	rcall Laddarad	
-000060 d058      	rcall clear
+000060 d047      	rcall Laddarad	
+000061 d05a      	rcall clear
                  
-000061 9840      	cbi ROW0_PORT, ROW0_PINOUT
+000062 9840      	cbi ROW0_PORT, ROW0_PINOUT
                  	
                  ;	===================
                  ;		SECOND ROW
@@ -1310,57 +1311,53 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  
                  
                  
-000062 3061      	cpi rUpdateFlag, 1
-000063 f011      	breq updateLoop
+000063 3061      	cpi rUpdateFlag, 1
+000064 f011      	breq updateLoop
                  
-000064 940c 005e 	jmp main
+000065 940c 005f 	jmp main
                  
                  ; Bestämmer hur lång tid man ska vänta mellan varje interrupt. 
                  updateLoop:
-000066 9593      	inc rUpdateDelay			; rUpdateDelay++
-000067 309f      	cpi rUpdateDelay, 15		; Kolla om 10 interrupts har gått
-000068 f409      	brne skip					; Om inte 10 updates har gått, skippa continueUpdate
-000069 d003      	rcall continueUpdate		; 
+000067 9593      	inc rUpdateDelay			; rUpdateDelay++
+000068 309f      	cpi rUpdateDelay, 15		; Kolla om 10 interrupts har gått
+000069 f409      	brne skip					; Om inte 10 updates har gått, skippa continueUpdate
+00006a d003      	rcall continueUpdate		; 
                  	skip:						; 
-00006a e060      	ldi rUpdateFlag, 0b00000000	; Nollställ inför nästa interrupt
-00006b 940c 005e 	jmp main					; 
+00006b e060      	ldi rUpdateFlag, 0b00000000	; Nollställ inför nästa interrupt
+00006c 940c 005f 	jmp main					; 
                  
                  ; Increase rSnake 
                  continueUpdate:	
-00006d e090      	ldi rUpdateDelay, 0b00000000
+00006e e090      	ldi rUpdateDelay, 0b00000000
                  
-                 	; xaxel start 
                  	; Välj x-axel
-00006e e000      	ldi rTemp, 0x00
-00006f 9100 007c 	lds rTemp, ADMUX
-000071 6005      	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
-000072 9300 007c 	sts ADMUX, rTemp
+00006f e000      	ldi rTemp, 0x00
+000070 9100 007c 	lds rTemp, ADMUX
+000072 6005      	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
+000073 9300 007c 	sts ADMUX, rTemp
                  
                  	; Starta A/D-konvertering. 
-000074 e000      	ldi rTemp, 0x00
-000075 9100 007a 	lds rTemp, ADCSRA		; Get ADCSRA
-000077 6400      	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
-000078 9300 007a 	sts ADCSRA, rTemp		; Ladda in
+000075 e000      	ldi rTemp, 0x00
+000076 9100 007a 	lds rTemp, ADCSRA		; Get ADCSRA
+000078 6400      	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
+000079 9300 007a 	sts ADCSRA, rTemp		; Ladda in
                  	
                  iterate_x:
-00007a e000      	ldi rTemp, 0x00
-00007b 9100 007a 	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
-00007d fd06      	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
-00007e 940c 007a 	jmp iterate_x			; Iterera
-000080 0000      	nop
+00007b e000      	ldi rTemp, 0x00
+00007c 9100 007a 	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
+00007e fd06      	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
+00007f 940c 007b 	jmp iterate_x			; Iterera
+000081 0000      	nop
                  
-000081 9170 0079 	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
-                 	; mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
+000082 9170 0079 	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
                  
-                 	; xaxel slut
+000084 3a75      	cpi rDirectionX, 165	; Deadzone
+000085 f420      	brsh go_left
                  
-000083 3a75      	cpi rDirectionX, 165
-000084 f420      	brsh go_left
+000086 357a      	cpi rDirectionX, 90		; Deadzone
+000087 f028      	brlo go_right
                  
-000085 357a      	cpi rDirectionX, 90
-000086 f028      	brlo go_right
-                 
-000087 940c 008d 	jmp checkdir
+000088 940c 008e 	jmp checkdir
                  	
                  	; Stå still = 0
                  	; Vänster = 1
@@ -1368,104 +1365,107 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  	; Upp = 4 (inte fixat än)
                  	; Ner = 8 (inte fixat än)
                  	go_left:
-000089 e011      		ldi rDirection, 0b0000001
-00008a 940c 008d 	jmp checkdir
+00008a e011      		ldi rDirection, 0b0000001
+00008b 940c 008e 	jmp checkdir
                  	
                  	go_right:
-00008c e012      		ldi rDirection, 0b0000010
+00008d e012      		ldi rDirection, 0b0000010
                  	
                  checkdir:
                  
-00008d 3011      	cpi rDirection, 1
-00008e f021      	breq left
+00008e 3010      	cpi rDirection, 0
+00008f f0a9      	breq outsidecheckdone
                  
-00008f 3012      	cpi rDirection, 2
-000090 f029      	breq right
+000090 3011      	cpi rDirection, 1
+000091 f021      	breq left
+                 
+000092 3012      	cpi rDirection, 2
+000093 f029      	breq right
                  	
                  	
                  
-000091 940c 0097 	jmp outsidecheck
+000094 940c 009a 	jmp outsidecheck
                  	left:
-000093 d032      		rcall move_left
-000094 940c 0097 		jmp outsidecheck
+000096 d032      		rcall move_left
+000097 940c 009a 		jmp outsidecheck
                  	right:
-000096 d02b      		rcall move_right
+000099 d02b      		rcall move_right
                  outsidecheck:
                  
-000097 f450      	brcc outsidecheckdone	; Kontrollera om Carry är cleared
+00009a f450      	brcc outsidecheckdone	; Kontrollera om Carry är cleared
                  
-000098 3011      	cpi rDirection, 1		; 
-000099 f011      	breq outsideleft
+00009b 3011      	cpi rDirection, 1		; 
+00009c f011      	breq outsideleft
                  
-00009a 3012      	cpi rDirection, 2
-00009b f021      	breq outsideRight
+00009d 3012      	cpi rDirection, 2
+00009e f021      	breq outsideRight
                  
                  	outsideleft:
-00009c e051      	ldi rSnake, 1
-00009d 9488      	clc
-00009e 940c 00a2 	jmp outsidecheckdone
+00009f e051      	ldi rSnake, 1
+0000a0 9488      	clc
+0000a1 940c 00a5 	jmp outsidecheckdone
                  
                  	outsideright:
-0000a0 e850      	ldi rSnake, 128
-0000a1 9488      	clc
+0000a3 e850      	ldi rSnake, 128
+0000a4 9488      	clc
                  
                  	outsidecheckdone:
                  
-0000a2 9508      	ret
+0000a5 9508      	ret
                  
                  isr_timerOF:
-0000a3 e061      	ldi rUpdateFlag, 0b00000001
-0000a4 9518      	reti
+0000a6 e061      	ldi rUpdateFlag, 0b00000001
+0000a7 9518      	reti
                  
                  Laddarad:
                  
-0000a5 b14b      	in rPORTD, PORTD
+0000a8 b14b      	in rPORTD, PORTD
                  
-0000a6 fb57      	bst rSnake, 7
-0000a7 f946      	bld rPORTD, 6
-0000a8 fb56      	bst rSnake, 6
-0000a9 f947      	bld rPORTD, 7
-0000aa fb55      	bst rSnake, 5
-0000ab f920      	bld rPORTB, 0
-0000ac fb54      	bst rSnake, 4
-0000ad f921      	bld rPORTB, 1
-0000ae fb53      	bst rSnake, 3
-0000af f922      	bld rPORTB, 2
-0000b0 fb52      	bst rSnake, 2
-0000b1 f923      	bld rPORTB, 3
-0000b2 fb51      	bst rSnake, 1
-0000b3 f924      	bld rPORTB, 4
-0000b4 fb50      	bst rSnake, 0
-0000b5 f925      	bld rPORTB, 5
+0000a9 fb57      	bst rSnake, 7
+0000aa f946      	bld rPORTD, 6
+0000ab fb56      	bst rSnake, 6
+0000ac f947      	bld rPORTD, 7
+0000ad fb55      	bst rSnake, 5
+0000ae f920      	bld rPORTB, 0
+0000af fb54      	bst rSnake, 4
+0000b0 f921      	bld rPORTB, 1
+0000b1 fb53      	bst rSnake, 3
+0000b2 f922      	bld rPORTB, 2
+0000b3 fb52      	bst rSnake, 2
+0000b4 f923      	bld rPORTB, 3
+0000b5 fb51      	bst rSnake, 1
+0000b6 f924      	bld rPORTB, 4
+0000b7 fb50      	bst rSnake, 0
+0000b8 f925      	bld rPORTB, 5
                  
-0000b6 b94b      	out PORTD, rPORTD
-0000b7 b925      	out PORTB, rPORTB
+0000b9 b94b      	out PORTD, rPORTD
+0000ba b925      	out PORTB, rPORTB
                  
-0000b8 9508      	ret
+0000bb 9508      	ret
                  
                  clear:
                  	
-0000b9 985e      	cbi COL0_PORT, COL0_PINOUT
-0000ba 985f      	cbi COL1_PORT, COL1_PINOUT
-0000bb 9828      	cbi COL2_PORT, COL2_PINOUT
-0000bc 9829      	cbi COL3_PORT, COL3_PINOUT
-0000bd 982a      	cbi COL4_PORT, COL4_PINOUT
-0000be 982b      	cbi COL5_PORT, COL5_PINOUT
-0000bf 982c      	cbi COL6_PORT, COL6_PINOUT
-0000c0 982d      	cbi COL7_PORT, COL7_PINOUT
+0000bc 985e      	cbi COL0_PORT, COL0_PINOUT
+0000bd 985f      	cbi COL1_PORT, COL1_PINOUT
+0000be 9828      	cbi COL2_PORT, COL2_PINOUT
+0000bf 9829      	cbi COL3_PORT, COL3_PINOUT
+0000c0 982a      	cbi COL4_PORT, COL4_PINOUT
+0000c1 982b      	cbi COL5_PORT, COL5_PINOUT
+0000c2 982c      	cbi COL6_PORT, COL6_PINOUT
+0000c3 982d      	cbi COL7_PORT, COL7_PINOUT
                  	
-0000c1 9508      	ret
+0000c4 9508      	ret
                  
                  move_right:
-0000c2 2f05      	mov rTemp, rSnake
-0000c3 9506      	lsr rTemp
-0000c4 2f50      	mov rSnake, rTemp
-0000c5 9508      	ret
+0000c5 2f05      	mov rTemp, rSnake
+0000c6 9506      	lsr rTemp
+0000c7 2f50      	mov rSnake, rTemp
+0000c8 9508      	ret
                  
                  move_left:
-0000c6 2f05      	mov rTemp, rSnake
-0000c7 0f00      	lsl rTemp
-0000c8 2f50      	mov rSnake, rTemp
+0000c9 2f05      	mov rTemp, rSnake
+0000ca 0f00      	lsl rTemp
+0000cb 2f50      	mov rSnake, rTemp
 
 
 RESOURCE USE INFORMATION
@@ -1485,7 +1485,7 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  46 r17:   6 r18:   7 r19:   0 r20:   4 
+r13:   0 r14:   0 r15:   0 r16:  46 r17:   8 r18:   7 r19:   0 r20:   4 
 r21:  15 r22:   4 r23:   3 r24:   0 r25:   4 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 8 out of 35 (22.9%)
@@ -1493,15 +1493,15 @@ Registers used: 8 out of 35 (22.9%)
 "ATmega328P" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   8 brbc  :   0 brbs  :   0 
-brcc  :   1 brcs  :   0 break :   0 breq  :   5 brge  :   0 brhc  :   0 
+brcc  :   1 brcs  :   0 break :   0 breq  :   6 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   1 brlt  :   0 brmi  :   0 
 brne  :   1 brpl  :   0 brsh  :   1 brtc  :   0 brts  :   0 brvc  :   0 
 brvs  :   0 bset  :   0 bst   :   8 call  :   0 cbi   :  11 cbr   :   0 
 clc   :   2 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   8 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
+cpi   :   9 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   2 inc   :   1 jmp   :  10 
-ld    :   0 ldd   :   0 ldi   :  22 lds   :   7 lpm   :   0 lsl   :   1 
+ld    :   0 ldd   :   0 ldi   :  23 lds   :   7 lpm   :   0 lsl   :   1 
 lsr   :   1 mov   :   4 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   1 or    :   0 ori   :   0 out   :  11 pop   :   0 
 push  :   0 rcall :   6 ret   :   5 reti  :   1 rjmp  :   0 rol   :   0 
@@ -1515,7 +1515,7 @@ Instructions used: 28 out of 113 (24.8%)
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000194    308      0    308   32768   0.9%
+[.cseg] 0x000000 0x00019a    314      0    314   32768   1.0%
 [.dseg] 0x000100 0x000122      0     34     34    2048   1.7%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
