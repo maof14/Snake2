@@ -220,8 +220,7 @@ iterate_y:
 	*/
 	/* jmp end_if
 	nop */
-
-	mov rTemp, rSnake			; Kopiera resultat från rSnake till rTemp 
+ 
 
 ;	===================
 ;		FIRST ROWs
@@ -233,7 +232,7 @@ iterate_y:
 	rcall clear
 
 	cbi ROW0_PORT, ROW0_PINOUT
-
+	
 ;	===================
 ;		SECOND ROW
 ;	===================
@@ -362,7 +361,12 @@ updateLoop:
 
 continueUpdate:
 	ldi rUpdateDelay, 0b00000000
-	inc rSnake
+	cpi rSnake, 0b00000001
+	breq testSnake
+	ret
+
+testSnake:
+	ldi rSnake, 0b00000010
 	ret
 
 
@@ -375,21 +379,21 @@ Laddarad:
 
 	in rPORTD, PORTD
 
-	bst rTemp, 7
+	bst rSnake, 7
 	bld rPORTD, 6
-	bst rTemp, 6
+	bst rSnake, 6
 	bld rPORTD, 7
-	bst rTemp, 5
+	bst rSnake, 5
 	bld rPORTB, 0
-	bst rTemp, 4
+	bst rSnake, 4
 	bld rPORTB, 1
-	bst rTemp, 3
+	bst rSnake, 3
 	bld rPORTB, 2
-	bst rTemp, 2
+	bst rSnake, 2
 	bld rPORTB, 3
-	bst rTemp, 1
+	bst rSnake, 1
 	bld rPORTB, 4
-	bst rTemp, 0
+	bst rSnake, 0
 	bld rPORTB, 5
 
 	out PORTD, rPORTD
