@@ -159,13 +159,13 @@ init:
 	;sbi COL0_PORT, COL0_PINOUT
 	rcall clear
 
-	ldi rSnake, 0b10000000
+	ldi rSnake, 0b00000001
 	ldi rUpdateFlag, 0
 	ldi rUpdateDelay, 0
 
 ; Game loop
 main: 
-	; Välj x-axel
+/*	; Välj x-axel
 	ldi rTemp, 0x00
 	lds rTemp, ADMUX
 	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
@@ -217,11 +217,11 @@ iterate_y:
 
 	cpi rDirectionX, 0b10001000 ; compare x-value with 128 + 8
 	brlo move_right				; if true, move right
-
+	*/
 	/* jmp end_if
 	nop */
 
-	mov rTemp, rSnake			; Kopiera resultat från rSnake till rTemp
+	mov rTemp, rSnake			; Kopiera resultat från rSnake till rTemp 
 
 ;	===================
 ;		FIRST ROWs
@@ -343,13 +343,37 @@ iterate_y:
 
 	cbi ROW7_PORT, ROW7_PINOUT
 	*/
+
+
+
+	cpi rUpdateFlag, 1
+	breq updateLoop
+
+
 	jmp main
+
+
+updateLoop:
+	INC rUpdateDelay
+	cpi rUpdateDelay, 15
+	breq continueUpdate
+	ldi rUpdateFlag, 0b00000000
+	jmp main
+
+continueUpdate:
+	ldi rUpdateDelay, 0b00000000
+	inc rSnake
+	ret
+
 
 isr_timerOF:
 	;jmp isr_timerOF:
+	ldi rUpdateFlag, 0b00000001
 	reti
 
 Laddarad:
+
+	in rPORTD, PORTD
 
 	bst rTemp, 7
 	bld rPORTD, 6
