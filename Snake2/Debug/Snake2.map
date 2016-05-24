@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 11:20:20 2016
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 11:29:31 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -758,11 +758,11 @@ EQU  ROW7_PINOUT  00000005
 DSEG matrix       00000100
 DSEG snake        00000108
 CSEG init         00000034
-CSEG isr_timerOF  00000092
-CSEG clear        000000a7
-CSEG main         0000005f
-CSEG iterate_x    0000006b
-CSEG iterate_y    00000080
-CSEG move_right   000000b0
-CSEG Laddarad     00000094
-CSEG move_left    000000b4
+CSEG isr_timerOF  00000091
+CSEG clear        000000a5
+CSEG main         0000005e
+CSEG iterate_x    0000006a
+CSEG iterate_y    0000007f
+CSEG move_right   000000ae
+CSEG Laddarad     00000092
+CSEG move_left    000000b2

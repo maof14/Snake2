@@ -130,7 +130,7 @@ init:
 	; Initiering av timer
 	; 1. Konfigurera pre-scaling genom att sätta bit 0-2 i TCCR0B
 	ldi rTemp, 0x00
-	lds rTemp, TCCR0B
+	in rTemp, TCCR0B
 	sbr rTemp,(1<<CS00)|(0<<CS01)|(1<<CS02)
 	out TCCR0B, rTemp
 

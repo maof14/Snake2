@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 11:20:20 2016
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 11:29:31 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -1084,7 +1084,7 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  .ORG 0x0000
 000000 940c 0034 	jmp init // Reset vector
                  .ORG 0x0020
-000020 940c 0092 	jmp isr_timerOF
+000020 940c 0091 	jmp isr_timerOF
                  .ORG INT_VECTORS_SIZE
                  init:
                  	// SÃ¤tt stackpekaren till högsta minnesadressen
@@ -1115,109 +1115,109 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  	; Initiering av timer
                  	; 1. Konfigurera pre-scaling genom att sätta bit 0-2 i TCCR0B
 000043 e000      	ldi rTemp, 0x00
-000044 9100 0025 	lds rTemp, TCCR0B
-000046 6005      	sbr rTemp,(1<<CS00)|(0<<CS01)|(1<<CS02)
-000047 bd05      	out TCCR0B, rTemp
+000044 b505      	in rTemp, TCCR0B
+000045 6005      	sbr rTemp,(1<<CS00)|(0<<CS01)|(1<<CS02)
+000046 bd05      	out TCCR0B, rTemp
                  
                  	; 2. Aktivera globala avbrott genom instruktionen sei
-000048 9478      	sei
+000047 9478      	sei
                  
                  	; 3. Aktivera overflow-avbrott för timern genom att sätta bit 0 i TIMSK0 till 1.
-000049 e000      	ldi rTemp, 0x00		; Nollställ rTemp
-00004a 9100 006e 	lds rTemp, TIMSK0	; Ta nuvarnade TIMSK0
-00004c 6001      	sbr rTemp,(1<<TOIE0); Ändra en bitjävel
-00004d 9300 006e 	sts TIMSK0, rTemp	; Sätt tillbaka den ändrade TIMSK0
+000048 e000      	ldi rTemp, 0x00		; Nollställ rTemp
+000049 9100 006e 	lds rTemp, TIMSK0	; Ta nuvarnade TIMSK0
+00004b 6001      	sbr rTemp,(1<<TOIE0); Ändra en bitjävel
+00004c 9300 006e 	sts TIMSK0, rTemp	; Sätt tillbaka den ändrade TIMSK0
                  
                  	; Konfiguration av A/D-omvandlaren
-00004f e000      	ldi rTemp, 0x00
-000050 9100 007c 	lds rTemp, ADMUX
-000052 6600      	sbr rTemp,(1<<REFS0)|(0<<REFS1)|(1<<ADLAR) ; ADLAR ändrar till 8-bitarsläge för input. (mindre precision)
-000053 9300 007c 	sts ADMUX, rTemp
+00004e e000      	ldi rTemp, 0x00
+00004f 9100 007c 	lds rTemp, ADMUX
+000051 6600      	sbr rTemp,(1<<REFS0)|(0<<REFS1)|(1<<ADLAR) ; ADLAR ändrar till 8-bitarsläge för input. (mindre precision)
+000052 9300 007c 	sts ADMUX, rTemp
                  
                  	; 
-000055 e000      	ldi rTemp, 0x00
-000056 9100 007a 	lds rTemp, ADCSRA
-000058 6807      	sbr rTemp,(1<<ADPS0)|(1<<ADPS1)|(1<<ADPS2)|(1<<ADEN)
-000059 9300 007a 	sts ADCSRA, rTemp
+000054 e000      	ldi rTemp, 0x00
+000055 9100 007a 	lds rTemp, ADCSRA
+000057 6807      	sbr rTemp,(1<<ADPS0)|(1<<ADPS1)|(1<<ADPS2)|(1<<ADEN)
+000058 9300 007a 	sts ADCSRA, rTemp
                  	// Konfiguration av A/D-omvandlaren slut. 
                  
                  	;sbi COL0_PORT, COL0_PINOUT
-00005b d04b      	rcall clear
+00005a d04a      	rcall clear
                  
-00005c e850      	ldi rSnake, 0b10000000
-00005d e060      	ldi rUpdateFlag, 0
-00005e e090      	ldi rUpdateDelay, 0
+00005b e850      	ldi rSnake, 0b10000000
+00005c e060      	ldi rUpdateFlag, 0
+00005d e090      	ldi rUpdateDelay, 0
                  
                  ; Game loop
                  main: 
                  	; Välj x-axel
-00005f e000      	ldi rTemp, 0x00
-000060 9100 007c 	lds rTemp, ADMUX
-000062 6005      	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
-000063 9300 007c 	sts ADMUX, rTemp
+00005e e000      	ldi rTemp, 0x00
+00005f 9100 007c 	lds rTemp, ADMUX
+000061 6005      	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
+000062 9300 007c 	sts ADMUX, rTemp
                  
                  	; Starta A/D-konvertering. 
-000065 e000      	ldi rTemp, 0x00
-000066 9100 007a 	lds rTemp, ADCSRA		; Get ADCSRA
-000068 6400      	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
-000069 9300 007a 	sts ADCSRA, rTemp		; Ladda in
+000064 e000      	ldi rTemp, 0x00
+000065 9100 007a 	lds rTemp, ADCSRA		; Get ADCSRA
+000067 6400      	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
+000068 9300 007a 	sts ADCSRA, rTemp		; Ladda in
                  	
                  iterate_x:
-00006b e000      	ldi rTemp, 0x00
-00006c 9100 007a 	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
-00006e fd06      	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
-00006f 940c 006b 	jmp iterate_x			; Iterera
-000071 0000      	nop
+00006a e000      	ldi rTemp, 0x00
+00006b 9100 007a 	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
+00006d fd06      	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
+00006e 940c 006a 	jmp iterate_x			; Iterera
+000070 0000      	nop
                  
-000072 9170 0079 	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
+000071 9170 0079 	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
                  	; mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
                  
                  	; rDirectionX > 128 = vänster
                  	; rDirectionX < 128 = höger
                  
                  	; Välj y-axel
-000074 e000      	ldi rTemp, 0x00
-000075 9100 007c 	lds rTemp, ADMUX
-000077 6004      	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(0<<MUX0) ; (0b0100 = 5)
-000078 9300 007c 	sts ADMUX, rTemp
+000073 e000      	ldi rTemp, 0x00
+000074 9100 007c 	lds rTemp, ADMUX
+000076 6004      	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(0<<MUX0) ; (0b0100 = 5)
+000077 9300 007c 	sts ADMUX, rTemp
                  
                  	; Starta A/D-konvertering. 
-00007a e000      	ldi rTemp, 0x00
-00007b 9100 007a 	lds rTemp, ADCSRA		; Get ADCSRA
-00007d 6400      	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
-00007e 9300 007a 	sts ADCSRA, rTemp		; Ladda in
+000079 e000      	ldi rTemp, 0x00
+00007a 9100 007a 	lds rTemp, ADCSRA		; Get ADCSRA
+00007c 6400      	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
+00007d 9300 007a 	sts ADCSRA, rTemp		; Ladda in
                  	
                  iterate_y:
-000080 e000      	ldi rTemp, 0x00
-000081 9100 007a 	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
-000083 fd06      	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
-000084 940c 0080 	jmp iterate_y			; Iterera
-000086 0000      	nop
+00007f e000      	ldi rTemp, 0x00
+000080 9100 007a 	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
+000082 fd06      	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
+000083 940c 007f 	jmp iterate_y			; Iterera
+000085 0000      	nop
                  
-000087 9180 0079 	lds rDirectionY, ADCH		; Läs av resultat
+000086 9180 0079 	lds rDirectionY, ADCH		; Läs av resultat
                  	; mov rTemp, rDirectionY
                  
                  	; rDirectionY < 128 = neråt
                  	; rDirectionY > 128 = uppåt
                  
-000089 3878      	cpi rDirectionX, 0b10001000 ; compare x-value with 128 + 8
-00008a f128      	brlo move_right				; if true, move right
+000088 3878      	cpi rDirectionX, 0b10001000 ; compare x-value with 128 + 8
+000089 f120      	brlo move_right				; if true, move right
                  
                  	/* jmp end_if
                  	nop */
                  
-00008b 2f05      	mov rTemp, rSnake			; Kopiera resultat från rSnake till rTemp
+00008a 2f05      	mov rTemp, rSnake			; Kopiera resultat från rSnake till rTemp
                  
                  ;	===================
                  ;		FIRST ROWs
                  ;	===================
                  
-00008c 9a40      	sbi ROW0_PORT, ROW0_PINOUT
+00008b 9a40      	sbi ROW0_PORT, ROW0_PINOUT
                  
-00008d d006      	rcall Laddarad	
-00008e d018      	rcall clear
+00008c d005      	rcall Laddarad	
+00008d d017      	rcall clear
                  
-00008f 9840      	cbi ROW0_PORT, ROW0_PINOUT
+00008e 9840      	cbi ROW0_PORT, ROW0_PINOUT
                  
                  ;	===================
                  ;		SECOND ROW
@@ -1328,59 +1328,59 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  
                  	cbi ROW7_PORT, ROW7_PINOUT
                  	*/
-000090 940c 005f 	jmp main
+00008f 940c 005e 	jmp main
                  
                  isr_timerOF:
-000092 e061      	ldi rUpdateFlag, 0b00000001
-000093 9518      	reti
+                 	;jmp isr_timerOF:
+000091 9518      	reti
                  
                  Laddarad:
                  
-000094 fb07      	bst rTemp, 7
-000095 f946      	bld rPORTD, 6
-000096 fb06      	bst rTemp, 6
-000097 f947      	bld rPORTD, 7
-000098 fb05      	bst rTemp, 5
-000099 f920      	bld rPORTB, 0
-00009a fb04      	bst rTemp, 4
-00009b f921      	bld rPORTB, 1
-00009c fb03      	bst rTemp, 3
-00009d f922      	bld rPORTB, 2
-00009e fb02      	bst rTemp, 2
-00009f f923      	bld rPORTB, 3
-0000a0 fb01      	bst rTemp, 1
-0000a1 f924      	bld rPORTB, 4
-0000a2 fb00      	bst rTemp, 0
-0000a3 f925      	bld rPORTB, 5
+000092 fb07      	bst rTemp, 7
+000093 f946      	bld rPORTD, 6
+000094 fb06      	bst rTemp, 6
+000095 f947      	bld rPORTD, 7
+000096 fb05      	bst rTemp, 5
+000097 f920      	bld rPORTB, 0
+000098 fb04      	bst rTemp, 4
+000099 f921      	bld rPORTB, 1
+00009a fb03      	bst rTemp, 3
+00009b f922      	bld rPORTB, 2
+00009c fb02      	bst rTemp, 2
+00009d f923      	bld rPORTB, 3
+00009e fb01      	bst rTemp, 1
+00009f f924      	bld rPORTB, 4
+0000a0 fb00      	bst rTemp, 0
+0000a1 f925      	bld rPORTB, 5
                  
-0000a4 b94b      	out PORTD, rPORTD
-0000a5 b925      	out PORTB, rPORTB
+0000a2 b94b      	out PORTD, rPORTD
+0000a3 b925      	out PORTB, rPORTB
                  
-0000a6 9508      	ret
+0000a4 9508      	ret
                  
                  clear:
                  	
-0000a7 985e      	cbi COL0_PORT, COL0_PINOUT
-0000a8 985f      	cbi COL1_PORT, COL1_PINOUT
-0000a9 9828      	cbi COL2_PORT, COL2_PINOUT
-0000aa 9829      	cbi COL3_PORT, COL3_PINOUT
-0000ab 982a      	cbi COL4_PORT, COL4_PINOUT
-0000ac 982b      	cbi COL5_PORT, COL5_PINOUT
-0000ad 982c      	cbi COL6_PORT, COL6_PINOUT
-0000ae 982d      	cbi COL7_PORT, COL7_PINOUT
+0000a5 985e      	cbi COL0_PORT, COL0_PINOUT
+0000a6 985f      	cbi COL1_PORT, COL1_PINOUT
+0000a7 9828      	cbi COL2_PORT, COL2_PINOUT
+0000a8 9829      	cbi COL3_PORT, COL3_PINOUT
+0000a9 982a      	cbi COL4_PORT, COL4_PINOUT
+0000aa 982b      	cbi COL5_PORT, COL5_PINOUT
+0000ab 982c      	cbi COL6_PORT, COL6_PINOUT
+0000ac 982d      	cbi COL7_PORT, COL7_PINOUT
                  	
-0000af 9508      	ret
+0000ad 9508      	ret
                  
                  move_right:
-0000b0 2f05      	mov rTemp, rSnake
-0000b1 9506      	lsr rTemp
-0000b2 2f50      	mov rSnake, rTemp
-0000b3 9508      	ret
+0000ae 2f05      	mov rTemp, rSnake
+0000af 9506      	lsr rTemp
+0000b0 2f50      	mov rSnake, rTemp
+0000b1 9508      	ret
                  
                  move_left:
-0000b4 2f05      	mov rTemp, rSnake
-0000b5 0f00      	lsl rTemp
-0000b6 2f50      	mov rSnake, rTemp
+0000b2 2f05      	mov rTemp, rSnake
+0000b3 0f00      	lsl rTemp
+0000b4 2f50      	mov rSnake, rTemp
 
 
 RESOURCE USE INFORMATION
@@ -1401,7 +1401,7 @@ counted separately from r26..r31 here.
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
 r13:   0 r14:   0 r15:   0 r16:  63 r17:   4 r18:   7 r19:   0 r20:   3 
-r21:   6 r22:   2 r23:   2 r24:   1 r25:   1 r26:   0 r27:   0 r28:   0 
+r21:   6 r22:   1 r23:   2 r24:   1 r25:   1 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 9 out of 35 (25.7%)
 
@@ -1415,8 +1415,8 @@ brvs  :   0 bset  :   0 bst   :   8 call  :   0 cbi   :  11 cbr   :   0
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   1 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   5 
-ld    :   0 ldd   :   0 ldi   :  18 lds   :  12 lpm   :   0 lsl   :   1 
+fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   0 jmp   :   5 
+ld    :   0 ldd   :   0 ldi   :  17 lds   :  11 lpm   :   0 lsl   :   1 
 lsr   :   1 mov   :   5 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   2 or    :   0 ori   :   0 out   :  11 pop   :   0 
 push  :   0 rcall :   3 ret   :   4 reti  :   1 rjmp  :   0 rol   :   0 
@@ -1425,12 +1425,12 @@ sbiw  :   0 sbr   :   8 sbrc  :   2 sbrs  :   0 sec   :   0 seh   :   0
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   7 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-Instructions used: 22 out of 113 (19.5%)
+Instructions used: 23 out of 113 (20.4%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000170    272      0    272   32768   0.8%
+[.cseg] 0x000000 0x00016c    268      0    268   32768   0.8%
 [.dseg] 0x000100 0x000122      0     34     34    2048   1.7%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
