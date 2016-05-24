@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 12:58:26 2016
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 13:31:12 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -763,7 +763,8 @@ CSEG clear        00000088
 CSEG main         0000005e
 CSEG Laddarad     00000074
 CSEG updateLoop   00000066
-CSEG continueUpdate 0000006c
+CSEG skip         0000006a
+CSEG continueUpdate 0000006d
 CSEG testSnake    00000070
 CSEG move_right   00000091
 CSEG move_left    00000095

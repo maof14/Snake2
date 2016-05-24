@@ -348,30 +348,25 @@ iterate_y:
 	cpi rUpdateFlag, 1
 	breq updateLoop
 
-
 	jmp main
 
-
+; Bestämmer hur lång tid man ska vänta mellan varje interrupt. 
 updateLoop:
-	INC rUpdateDelay
-	cpi rUpdateDelay, 15
-	breq continueUpdate
-	ldi rUpdateFlag, 0b00000000
-	jmp main
+	inc rUpdateDelay			; rUpdateDelay++
+	cpi rUpdateDelay, 10		; Kolla om 10 interrupts har gått
+	brne skip					; Om inte 10 updates har gått, skippa continueUpdate
+	rcall continueUpdate		; 
+	skip:						; 
+	ldi rUpdateFlag, 0b00000000	; Nollställ inför nästa interrupt
+	jmp main					; 
 
-continueUpdate:
+; Increase rSnake 
+continueUpdate:	
 	ldi rUpdateDelay, 0b00000000
-	cpi rSnake, 0b00000001
-	breq testSnake
+	inc rSnake
 	ret
-
-testSnake:
-	ldi rSnake, 0b00000010
-	ret
-
 
 isr_timerOF:
-	;jmp isr_timerOF:
 	ldi rUpdateFlag, 0b00000001
 	reti
 
