@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 13:31:12 2016
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 14:52:03 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -696,7 +696,7 @@ EQU  TWIaddr      00000030
 EQU  SPMRaddr     00000032
 EQU  INT_VECTORS_SIZE 00000034
 DEF  rTemp        r16
-DEF  rTemp2       r17
+DEF  rDirection   r17
 DEF  rPORTB       r18
 DEF  rPORTC       r19
 DEF  rPORTD       r20
@@ -758,13 +758,24 @@ EQU  ROW7_PINOUT  00000005
 DSEG matrix       00000100
 DSEG snake        00000108
 CSEG init         00000034
-CSEG isr_timerOF  00000072
-CSEG clear        00000088
+CSEG isr_timerOF  000000a8
+CSEG clear        000000be
 CSEG main         0000005e
-CSEG Laddarad     00000074
+CSEG Laddarad     000000aa
 CSEG updateLoop   00000066
 CSEG skip         0000006a
 CSEG continueUpdate 0000006d
-CSEG testSnake    00000070
-CSEG move_right   00000091
-CSEG move_left    00000095
+CSEG iterate_x    0000007a
+CSEG go_left      00000089
+CSEG go_right     0000008c
+CSEG checkdir     0000008d
+CSEG left         00000093
+CSEG right        00000096
+CSEG outsidecheck 00000097
+CSEG move_left    000000cb
+CSEG move_right   000000c7
+CSEG checkcarry   0000009b
+CSEG skipcarrycheck 0000009e
+CSEG outsideleft  000000a2
+CSEG outsidecheckdone 000000a6
+CSEG outsideright 000000a5

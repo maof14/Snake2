@@ -7,7 +7,7 @@
 
 ; [En lista med registerdefinitioner]
 .DEF rTemp				= r16
-.DEF rTemp2				= r17
+.DEF rDirection			= r17
 .DEF rPORTB				= r18
 .DEF rPORTC				= r19
 .DEF rPORTD				= r20
@@ -110,7 +110,6 @@ init:
 
 	; Initiering av portar får I/O
 	ldi rTemp, 0b11111111	; ettor
-	and rTemp2, rTemp		; nollor
 
 	; SÃ¤tt alla I/O-portar till output, ettor i DDR representerar output. 
 	ldi rTemp, 0b11111111
@@ -123,9 +122,10 @@ init:
 	cbi DDRC, PC5
 
 	; SlÃ¤ck alla lampor, sÃ¤tt nollpÃ¥ alla portar. 
-	out PORTB, rTemp2
-	out PORTC, rTemp2
-	out PORTD, rTemp2
+	ldi rTemp, 0b00000000
+	out PORTB, rTemp
+	out PORTC, rTemp
+	out PORTD, rTemp
 	
 	; Initiering av timer
 	; 1. Konfigurera pre-scaling genom att sätta bit 0-2 i TCCR0B
@@ -164,28 +164,8 @@ init:
 	ldi rUpdateDelay, 0
 
 ; Game loop
-main: 
-/*	; Välj x-axel
-	ldi rTemp, 0x00
-	lds rTemp, ADMUX
-	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
-	sts ADMUX, rTemp
-
-	; Starta A/D-konvertering. 
-	ldi rTemp, 0x00
-	lds rTemp, ADCSRA		; Get ADCSRA
-	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
-	sts ADCSRA, rTemp		; Ladda in
-	
-iterate_x:
-	ldi rTemp, 0x00
-	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
-	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
-	jmp iterate_x			; Iterera
-	nop
-
-	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
-	; mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
+main:
+/*
 
 	; rDirectionX > 128 = vänster
 	; rDirectionX < 128 = höger
@@ -353,7 +333,7 @@ iterate_y:
 ; Bestämmer hur lång tid man ska vänta mellan varje interrupt. 
 updateLoop:
 	inc rUpdateDelay			; rUpdateDelay++
-	cpi rUpdateDelay, 10		; Kolla om 10 interrupts har gått
+	cpi rUpdateDelay, 15		; Kolla om 10 interrupts har gått
 	brne skip					; Om inte 10 updates har gått, skippa continueUpdate
 	rcall continueUpdate		; 
 	skip:						; 
@@ -363,7 +343,98 @@ updateLoop:
 ; Increase rSnake 
 continueUpdate:	
 	ldi rUpdateDelay, 0b00000000
-	inc rSnake
+
+	; xaxel start 
+	; Välj x-axel
+	ldi rTemp, 0x00
+	lds rTemp, ADMUX
+	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(1<<MUX0) ; (0b0101 = 5)
+	sts ADMUX, rTemp
+
+	; Starta A/D-konvertering. 
+	ldi rTemp, 0x00
+	lds rTemp, ADCSRA		; Get ADCSRA
+	sbr rTemp,(1<<ADSC)		; Starta konvertering ---> ADSC = 1 (bit 6)
+	sts ADCSRA, rTemp		; Ladda in
+	
+iterate_x:
+	ldi rTemp, 0x00
+	lds rTemp, ADCSRA		; Ta nuvarande ADCSRA för att jämföra
+	sbrc rTemp, 6			; Kolla om bit 6 (ADSC) är 0 i rSettings (reflekterar ADCSRA) (instruktion = Skip next instruction if bit in register is cleared) ; Alltså om ej cleared, iterera. 	
+	jmp iterate_x			; Iterera
+	nop
+
+	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
+	; mov rTemp, rDirectionX	; Skicka den till rTemp, som skrivs ut. 
+
+	; xaxel slut
+
+	cpi rDirectionX, 135
+	brsh go_left
+
+	cpi rDirectionX, 120
+	brlo go_right
+
+	jmp checkdir
+	
+	; Stå still = 0
+	; Vänster = 1
+	; Höger = 2
+	; Upp = 4 (inte fixat än)
+	; Ner = 8 (inte fixat än)
+	go_left:
+		ldi rDirection, 0b0000001
+	jmp checkdir
+	
+	go_right:
+		ldi rDirection, 0b0000010
+	
+checkdir:
+
+	cpi rDirection, 1
+	breq left
+
+	cpi rDirection, 2
+	breq right
+	
+	
+
+	jmp outsidecheck
+	left:
+		rcall move_left
+	jmp outsidecheck
+	right:
+		rcall move_right
+outsidecheck:
+
+
+
+	;Kontrollera att snake är utanför
+	
+	cpi rDirection, 1
+	breq checkcarry
+	jmp skipcarrycheck
+	
+checkcarry:
+	brcs outsideleft
+	jmp outsidecheckdone
+
+	
+skipcarrycheck:
+	cpi rSnake, 1
+	brlo outsideright
+	jmp outsidecheckdone
+	
+outsideleft:
+		ldi rSnake, 1
+		jmp outsidecheckdone
+
+outsideright:
+		ldi rSnake, 128
+
+	outsidecheckdone:
+	clc
+
 	ret
 
 isr_timerOF:
