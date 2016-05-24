@@ -369,10 +369,10 @@ iterate_x:
 
 	; xaxel slut
 
-	cpi rDirectionX, 135
+	cpi rDirectionX, 165
 	brsh go_left
 
-	cpi rDirectionX, 120
+	cpi rDirectionX, 90
 	brlo go_right
 
 	jmp checkdir

@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 15:15:48 2016
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Tue May 24 15:25:10 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -1354,10 +1354,10 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
                  
                  	; xaxel slut
                  
-000083 3877      	cpi rDirectionX, 135
+000083 3a75      	cpi rDirectionX, 165
 000084 f420      	brsh go_left
                  
-000085 3778      	cpi rDirectionX, 120
+000085 357a      	cpi rDirectionX, 90
 000086 f028      	brlo go_right
                  
 000087 940c 008d 	jmp checkdir
@@ -1387,70 +1387,30 @@ AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\mai
 000091 940c 0097 	jmp outsidecheck
                  	left:
 000093 d032      		rcall move_left
-000094 940c 0097 	jmp outsidecheck
+000094 940c 0097 		jmp outsidecheck
                  	right:
 000096 d02b      		rcall move_right
                  outsidecheck:
                  
-                 /*
+000097 f450      	brcc outsidecheckdone	; Kontrollera om Carry är cleared
                  
-                 	;Kontrollera att snake är utanför
-                 	
-                 	;cpi rDirection, 1	; Kontrollera om riktningen är vänster
-                 	;breq checkcarry	;	; 
-                 	jmp checkcarry
-                 	jmp skipcarrycheck
-                 	
-                 checkcarry:
-                 	brcs outsideleft
-                 	jmp outsidecheckdone
+000098 3011      	cpi rDirection, 1		; 
+000099 f011      	breq outsideleft
                  
-                 	
-                 skipcarrycheck:
-                 	;cpi rSnake, 1
-                 	;brlo outsideright
-                 	brcs outsideright
-                 	
-                 	jmp outsidecheckdone
-                 	*/
-                 	/*
-                 	cpi rDirection, 1
-                 	breq checkleft
-                 	
+00009a 3012      	cpi rDirection, 2
+00009b f021      	breq outsideRight
                  
-                 	cpi rDirection, 2
-                 	breq checkright
+                 	outsideleft:
+00009c e051      	ldi rSnake, 1
+00009d 9488      	clc
+00009e 940c 00a2 	jmp outsidecheckdone
                  
-                 	jmp outsidecheckdone
+                 	outsideright:
+0000a0 e850      	ldi rSnake, 128
+0000a1 9488      	clc
                  
-                 checkleft:
-                 	brcs outsideleft
-                 
-                 checkright:
-                 	brcs outsideright
-                 
-                 	*/
-                 
-000097 f450      	brcc outsidecheckdone
-                 
-                 	checkdirection:
-000098 3011      		cpi rDirection, 1
-000099 f011      		breq outsideleft
-                 
-00009a 3012      		cpi rDirection, 2
-00009b f021      		breq outsideRight
-                 
-                 
-                 
-                 outsideleft:
-00009c e051      		ldi rSnake, 1
-00009d 9488      		clc
-00009e 940c 00a2 		jmp outsidecheckdone
-                 
-                 outsideright:
-0000a0 e850      		ldi rSnake, 128
-0000a1 9488      		clc
                  	outsidecheckdone:
+                 
 0000a2 9508      	ret
                  
                  isr_timerOF:
