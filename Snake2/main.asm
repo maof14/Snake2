@@ -402,38 +402,29 @@ checkdir:
 	jmp outsidecheck
 	left:
 		rcall move_left
-	jmp outsidecheck
+		jmp outsidecheck
 	right:
 		rcall move_right
 outsidecheck:
 
+	brcc outsidecheckdone	; Kontrollera om Carry är cleared
 
+	cpi rDirection, 1		; 
+	breq outsideleft
 
-	;Kontrollera att snake är utanför
-	
-	cpi rDirection, 1
-	breq checkcarry
-	jmp skipcarrycheck
-	
-checkcarry:
-	brcs outsideleft
+	cpi rDirection, 2
+	breq outsideRight
+
+	outsideleft:
+	ldi rSnake, 1
+	clc
 	jmp outsidecheckdone
 
-	
-skipcarrycheck:
-	cpi rSnake, 1
-	brlo outsideright
-	jmp outsidecheckdone
-	
-outsideleft:
-		ldi rSnake, 1
-		jmp outsidecheckdone
-
-outsideright:
-		ldi rSnake, 128
+	outsideright:
+	ldi rSnake, 128
+	clc
 
 	outsidecheckdone:
-	clc
 
 	ret
 
