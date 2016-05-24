@@ -132,7 +132,7 @@ init:
 	ldi rTemp, 0x00
 	lds rTemp, TCCR0B
 	sbr rTemp,(1<<CS00)|(0<<CS01)|(1<<CS02)
-	sts TCCR0B, rTemp
+	out TCCR0B, rTemp
 
 	; 2. Aktivera globala avbrott genom instruktionen sei
 	sei
@@ -224,8 +224,9 @@ iterate_y:
 	mov rTemp, rSnake			; Kopiera resultat från rSnake till rTemp
 
 ;	===================
-;		FIRST ROW
+;		FIRST ROWs
 ;	===================
+
 	sbi ROW0_PORT, ROW0_PINOUT
 
 	rcall Laddarad	
@@ -345,7 +346,7 @@ iterate_y:
 	jmp main
 
 isr_timerOF:
-	ldi rUpdateFlag, 0b00000001
+	;jmp isr_timerOF:
 	reti
 
 Laddarad:
