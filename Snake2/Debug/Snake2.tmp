@@ -25,10 +25,10 @@
   <matrix><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>92</LINE></matrix>
   <snake><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>93</LINE></snake>
   <init><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>104</LINE></init>
-  <isr_timerOF><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>474</LINE></isr_timerOF>
-  <clear><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>504</LINE></clear>
+  <isr_timerOF><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>475</LINE></isr_timerOF>
+  <clear><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>505</LINE></clear>
   <main><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>178</LINE></main>
-  <Laddarad><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>478</LINE></Laddarad>
+  <Laddarad><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>479</LINE></Laddarad>
   <updateLoop><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>350</LINE></updateLoop>
   <skip><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>355</LINE></skip>
   <continueUpdate><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>360</LINE></continueUpdate>
@@ -43,8 +43,6 @@
   <outsidecheck><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>440</LINE></outsidecheck>
   <outsideleft><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>450</LINE></outsideleft>
   <outsideRight><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>456</LINE></outsideRight>
-  <done><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>471</LINE></done>
-  <move_right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>517</LINE></move_right>
-  <move_left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>523</LINE></move_left>
+  <done><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>472</LINE></done>
  </LABELS>
 </ASSEMBLER_INFO>

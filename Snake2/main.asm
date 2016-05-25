@@ -462,12 +462,13 @@ outsidecheck:
 	cpi rCounter, 2
 	brne done
 	
-	jmp checkdircont
+
 	inc rCounter
 
 	ld rTemp, Y
 	inc rTemp
 	st Y, rTemp
+	jmp checkdircont
 done:
 	ret
 
@@ -513,7 +514,7 @@ clear:
 	cbi COL7_PORT, COL7_PINOUT
 	
 	ret
-
+/*
 move_right:
 	ld rTemp, Y
 	lsr rTemp
@@ -525,3 +526,4 @@ move_left:
 	lsl rTemp
 	st Y, rTemp
 	ret
+	*/

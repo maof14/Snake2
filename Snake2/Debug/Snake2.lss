@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 25 14:30:40 2016
+AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 25 14:36:59 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -1447,12 +1447,13 @@ AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\ma
 0000c3 3032      	cpi rCounter, 2
 0000c4 f431      	brne done
                  	
-0000c5 940c 00a6 	jmp checkdircont
-0000c7 9533      	inc rCounter
                  
-0000c8 8108      	ld rTemp, Y
-0000c9 9503      	inc rTemp
-0000ca 8308      	st Y, rTemp
+0000c5 9533      	inc rCounter
+                 
+0000c6 8108      	ld rTemp, Y
+0000c7 9503      	inc rTemp
+0000c8 8308      	st Y, rTemp
+0000c9 940c 00a6 	jmp checkdircont
                  done:
 0000cb 9508      	ret
                  
@@ -1498,17 +1499,18 @@ AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\ma
 0000e9 982d      	cbi COL7_PORT, COL7_PINOUT
                  	
 0000ea 9508      	ret
-                 
+                 /*
                  move_right:
-0000eb 8108      	ld rTemp, Y
-0000ec 9506      	lsr rTemp
-0000ed 8308      	st Y, rTemp
-0000ee 9508      	ret
+                 	ld rTemp, Y
+                 	lsr rTemp
+                 	st Y, rTemp
+                 	ret
                  
                  move_left:
-0000ef 8108      	ld rTemp, Y
-0000f0 0f00      	lsl rTemp
-0000f1 8308      	st Y, rTemp
+                 	ld rTemp, Y
+                 	lsl rTemp
+                 	st Y, rTemp
+                 	ret
 
 
 RESOURCE USE INFORMATION
@@ -1526,9 +1528,9 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 "ATmega328P" register use summary:
-x  :   0 y  :  18 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
+x  :   0 y  :  14 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  64 r17:   8 r18:   7 r19:   3 r20:   4 
+r13:   0 r14:   0 r15:   0 r16:  58 r17:   8 r18:   7 r19:   3 r20:   4 
 r21:  11 r22:   4 r23:   3 r24:   0 r25:   4 r26:   0 r27:   0 r28:   4 
 r29:   4 r30:   0 r31:   0 
 Registers used: 12 out of 35 (34.3%)
@@ -1544,21 +1546,21 @@ clc   :   2 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :  10 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   2 inc   :   3 jmp   :  11 
-ld    :   8 ldd   :   0 ldi   :  33 lds   :   7 lpm   :   0 lsl   :   2 
-lsr   :   2 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
+ld    :   6 ldd   :   0 ldi   :  33 lds   :   7 lpm   :   0 lsl   :   1 
+lsr   :   1 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   1 or    :   0 ori   :   0 out   :  11 pop   :   0 
-push  :   0 rcall :   8 ret   :   5 reti  :   1 rjmp  :   0 rol   :   0 
+push  :   0 rcall :   8 ret   :   3 reti  :   1 rjmp  :   0 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   3 sbic  :   0 sbis  :   0 
 sbiw  :   0 sbr   :   6 sbrc  :   1 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   7 std   :   3 sts   :   5 
+sez   :   0 sleep :   0 spm   :   0 st    :   5 std   :   3 sts   :   5 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
 Instructions used: 30 out of 113 (26.5%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0001e6    390      0    390   32768   1.2%
+[.cseg] 0x000000 0x0001d6    374      0    374   32768   1.1%
 [.dseg] 0x000100 0x000122      0     34     34    2048   1.7%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

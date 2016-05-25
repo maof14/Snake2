@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 25 14:30:40 2016
+AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Wed May 25 14:36:59 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -777,5 +777,3 @@ CSEG outsidecheck 000000b6
 CSEG outsideleft  000000bb
 CSEG outsideRight 000000c0
 CSEG done         000000cb
-CSEG move_right   000000eb
-CSEG move_left    000000ef
