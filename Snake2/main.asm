@@ -108,8 +108,10 @@ init:
 	ldi rTemp, LOW(RAMEND)
 	out SPL, rTemp
 
-	; Initiering av portar får I/O
-	ldi rTemp, 0b11111111	; ettor
+	ldi YH, HIGH(matrix)
+	ldi YL, LOW(matrix)
+
+
 
 	; SÃ¤tt alla I/O-portar till output, ettor i DDR representerar output. 
 	ldi rTemp, 0b11111111
@@ -159,7 +161,13 @@ init:
 	;sbi COL0_PORT, COL0_PINOUT
 	rcall clear
 
-	ldi rSnake, 0b00000001
+	ldi YH, 0
+	ldi YL, 0
+
+	ldi rTemp, 0b00000001
+	st Y+, rTemp
+	ldi rTemp, 0b10000000
+	st Y+, rTemp
 	ldi rUpdateFlag, 0
 	ldi rUpdateDelay, 0
 	ldi rDirection, 0
@@ -202,12 +210,15 @@ iterate_y:
 	/* jmp end_if
 	nop */
  
-
+	ldi YH, HIGH(matrix)
+	ldi YL, LOW(matrix)
 ;	===================
 ;		FIRST ROWs
 ;	===================
 
 	sbi ROW0_PORT, ROW0_PINOUT
+
+	ld rSnake, Y+
 
 	rcall Laddarad	
 	rcall clear
@@ -217,13 +228,15 @@ iterate_y:
 ;	===================
 ;		SECOND ROW
 ;	===================
-/*	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
+	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
+
+	ld rSnake, Y+
 
 	rcall Laddarad
 	rcall clear
 
 	cbi ROW1_PORT, ROW1_PINOUT //Avaktiverar raden
-	*/
+	
 ;	===================
 ;		THIRD ROW
 ;	===================
@@ -388,6 +401,9 @@ iterate_x:
 	
 checkdir:
 
+	ldi YH, HIGH(matrix)
+	ldi YL, LOW(matrix)
+
 	cpi rDirection, 0
 	breq outsidecheckdone
 
@@ -416,12 +432,14 @@ outsidecheck:
 	breq outsideRight
 
 	outsideleft:
-	ldi rSnake, 1
+	ldi rTemp, 1
+	st Y, rTemp
 	clc
 	jmp outsidecheckdone
 
 	outsideright:
-	ldi rSnake, 128
+	ldi rTemp, 128
+	st Y, rTemp
 	clc
 
 	outsidecheckdone:
@@ -472,13 +490,13 @@ clear:
 	ret
 
 move_right:
-	mov rTemp, rSnake
+	ld rTemp, Y
 	lsr rTemp
-	mov rSnake, rTemp
+	std Y+1, rTemp
 	ret
 
 move_left:
-	mov rTemp, rSnake
+	ld rTemp, Y
 	lsl rTemp
-	mov rSnake, rTemp
+	std Y+1, rTemp
 	ret
