@@ -25,24 +25,26 @@
   <matrix><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>92</LINE></matrix>
   <snake><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>93</LINE></snake>
   <init><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>104</LINE></init>
-  <isr_timerOF><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>449</LINE></isr_timerOF>
-  <clear><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>479</LINE></clear>
-  <main><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>176</LINE></main>
-  <Laddarad><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>453</LINE></Laddarad>
-  <updateLoop><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>348</LINE></updateLoop>
-  <skip><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>353</LINE></skip>
-  <continueUpdate><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>358</LINE></continueUpdate>
-  <iterate_x><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>373</LINE></iterate_x>
-  <go_left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>395</LINE></go_left>
-  <go_right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>399</LINE></go_right>
-  <checkdir><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>402</LINE></checkdir>
-  <outsidecheckdone><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>445</LINE></outsidecheckdone>
-  <left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>419</LINE></left>
-  <right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>422</LINE></right>
-  <outsidecheck><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>424</LINE></outsidecheck>
-  <move_left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>498</LINE></move_left>
-  <move_right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>492</LINE></move_right>
-  <outsideleft><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>434</LINE></outsideleft>
-  <outsideRight><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>440</LINE></outsideRight>
+  <isr_timerOF><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>474</LINE></isr_timerOF>
+  <clear><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>504</LINE></clear>
+  <main><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>178</LINE></main>
+  <Laddarad><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>478</LINE></Laddarad>
+  <updateLoop><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>350</LINE></updateLoop>
+  <skip><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>355</LINE></skip>
+  <continueUpdate><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>360</LINE></continueUpdate>
+  <iterate_x><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>375</LINE></iterate_x>
+  <go_left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>397</LINE></go_left>
+  <go_right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>401</LINE></go_right>
+  <checkdir><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>404</LINE></checkdir>
+  <checkdircont><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>410</LINE></checkdircont>
+  <outsidecheckdone><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>461</LINE></outsidecheckdone>
+  <left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>429</LINE></left>
+  <right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>435</LINE></right>
+  <outsidecheck><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>440</LINE></outsidecheck>
+  <outsideleft><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>450</LINE></outsideleft>
+  <outsideRight><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>456</LINE></outsideRight>
+  <done><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>471</LINE></done>
+  <move_right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>517</LINE></move_right>
+  <move_left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>523</LINE></move_left>
  </LABELS>
 </ASSEMBLER_INFO>

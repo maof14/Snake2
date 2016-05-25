@@ -9,7 +9,7 @@
 .DEF rTemp				= r16
 .DEF rDirection			= r17
 .DEF rPORTB				= r18
-.DEF rPORTC				= r19
+.DEF rCounter			= r19
 .DEF rPORTD				= r20
 .DEF rSnake				= r21
 .DEF rUpdateFlag		= r22
@@ -165,9 +165,11 @@ init:
 	ldi YL, 0
 
 	ldi rTemp, 0b00000001
-	st Y+, rTemp
-	ldi rTemp, 0b10000000
-	st Y+, rTemp
+	std Y+0, rTemp
+	ldi rTemp, 0b00000010
+	std Y+1, rTemp
+	ldi rTemp, 0b00000100
+	std Y+2, rTemp
 	ldi rUpdateFlag, 0
 	ldi rUpdateDelay, 0
 	ldi rDirection, 0
@@ -210,8 +212,13 @@ iterate_y:
 	/* jmp end_if
 	nop */
  
-	ldi YH, HIGH(matrix)
-	ldi YL, LOW(matrix)
+	;ldi YH, HIGH(matrix)
+	;ldi YL, LOW(matrix)
+
+	ldi YH, 0
+	ldi YL, 0
+
+
 ;	===================
 ;		FIRST ROWs
 ;	===================
@@ -228,6 +235,7 @@ iterate_y:
 ;	===================
 ;		SECOND ROW
 ;	===================
+	
 	sbi ROW1_PORT, ROW1_PINOUT //Aktiverar raden
 
 	ld rSnake, Y+
@@ -237,24 +245,20 @@ iterate_y:
 
 	cbi ROW1_PORT, ROW1_PINOUT //Avaktiverar raden
 	
+	
 ;	===================
 ;		THIRD ROW
 ;	===================
-/*
-	
+
 	sbi ROW2_PORT, ROW2_PINOUT
 
-	ldi rTemp, 0b00110011
-
-	rcall Laddarad
+	ld rSnake, Y+
 	
+	rcall Laddarad
 	rcall clear
 
-
 	cbi ROW2_PORT, ROW2_PINOUT
-
-
-
+/*
 ;	===================
 ;		FOURTH ROW
 ;	===================
@@ -262,8 +266,7 @@ iterate_y:
 	
 	sbi ROW3_PORT, ROW3_PINOUT
 
-	ldi rTemp, 0b11001100
-
+	ld rSnake, Y+
 	rcall Laddarad
 	
 	rcall clear
@@ -279,7 +282,7 @@ iterate_y:
 
 	sbi ROW4_PORT, ROW4_PINOUT
 
-	ldi rTemp, 0b00110011
+	ld rSnake, Y+
 
 	rcall Laddarad
 	
@@ -292,8 +295,7 @@ iterate_y:
 	
 	sbi ROW5_PORT, ROW5_PINOUT
 
-	ldi rTemp, 0b11001100
-
+	ld rSnake, Y+
 	rcall Laddarad
 	
 	rcall clear
@@ -310,7 +312,7 @@ iterate_y:
 	
 	sbi ROW6_PORT, ROW6_PINOUT
 
-	ldi rTemp, 0b00110011
+	ld rSnake, Y+
 
 	rcall Laddarad
 	
@@ -327,7 +329,7 @@ iterate_y:
 	
 	sbi ROW7_PORT, ROW7_PINOUT
 
-	ldi rTemp, 0b11001100
+	ld rSnake, Y+
 
 	rcall Laddarad
 	
@@ -335,8 +337,8 @@ iterate_y:
 
 
 	cbi ROW7_PORT, ROW7_PINOUT
-	*/
 
+	*/
 
 
 	cpi rUpdateFlag, 1
@@ -401,8 +403,16 @@ iterate_x:
 	
 checkdir:
 
-	ldi YH, HIGH(matrix)
-	ldi YL, LOW(matrix)
+	ldi YH, 0
+	ldi YL, 0
+	ldi rCounter, 0
+
+checkdircont:
+	
+
+	;ld rTemp, Y
+	;add rTemp, rCounter
+	;st Y, rTemp
 
 	cpi rDirection, 0
 	breq outsidecheckdone
@@ -417,10 +427,16 @@ checkdir:
 
 	jmp outsidecheck
 	left:
-		rcall move_left
+		;rcall move_left
+		ld rTemp, Y
+		lsl rTemp
+		st Y, rTemp
 		jmp outsidecheck
 	right:
-		rcall move_right
+		;rcall move_right
+		ld rTemp, Y
+		lsr rTemp
+		st Y, rTemp
 outsidecheck:
 
 	brcc outsidecheckdone	; Kontrollera om Carry är cleared
@@ -443,7 +459,16 @@ outsidecheck:
 	clc
 
 	outsidecheckdone:
+	cpi rCounter, 2
+	brne done
+	
+	jmp checkdircont
+	inc rCounter
 
+	ld rTemp, Y
+	inc rTemp
+	st Y, rTemp
+done:
 	ret
 
 isr_timerOF:
@@ -492,11 +517,11 @@ clear:
 move_right:
 	ld rTemp, Y
 	lsr rTemp
-	std Y+1, rTemp
+	st Y, rTemp
 	ret
 
 move_left:
 	ld rTemp, Y
 	lsl rTemp
-	std Y+1, rTemp
+	st Y, rTemp
 	ret
