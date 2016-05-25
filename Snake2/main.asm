@@ -170,6 +170,16 @@ init:
 	std Y+1, rTemp
 	ldi rTemp, 0b00000100
 	std Y+2, rTemp
+	ldi rTemp, 0b00001000
+	std Y+3, rTemp
+	ldi rTemp, 0b00010000
+	std Y+4, rTemp
+	ldi rTemp, 0b00100000
+	std Y+5, rTemp
+	ldi rTemp, 0b01000000
+	std Y+6, rTemp
+	ldi rTemp, 0b10000000
+	std Y+7, rTemp
 	ldi rUpdateFlag, 0
 	ldi rUpdateDelay, 0
 	ldi rDirection, 0
@@ -258,7 +268,7 @@ iterate_y:
 	rcall clear
 
 	cbi ROW2_PORT, ROW2_PINOUT
-/*
+
 ;	===================
 ;		FOURTH ROW
 ;	===================
@@ -338,7 +348,6 @@ iterate_y:
 
 	cbi ROW7_PORT, ROW7_PINOUT
 
-	*/
 
 
 	cpi rUpdateFlag, 1
@@ -459,15 +468,15 @@ outsidecheck:
 	clc
 
 	outsidecheckdone:
-	cpi rCounter, 2
-	brne done
+	cpi rCounter, 3
+	breq done
 	
-
+cont:
 	inc rCounter
 
-	ld rTemp, Y
-	inc rTemp
-	st Y, rTemp
+	ld rTemp, Y+
+	;inc rTemp
+	;st Y, rTemp
 	jmp checkdircont
 done:
 	ret
