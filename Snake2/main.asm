@@ -8,9 +8,9 @@
 ; [En lista med registerdefinitioner]
 .DEF rTemp				= r16
 .DEF rDirection			= r17
-.DEF rPORTB				= r18
+.DEF rA					= r18
 .DEF rCounter			= r19
-.DEF rPORTD				= r20
+.DEF rB					= r20
 .DEF rSnake				= r21
 .DEF rUpdateFlag		= r22
 .DEF rDirectionX		= r23
@@ -164,21 +164,21 @@ init:
 	ldi YH, 0
 	ldi YL, 0
 
-	ldi rTemp, 0b00000001
+	ldi rTemp, 0b00000000
 	std Y+0, rTemp
-	ldi rTemp, 0b00000010
+	ldi rTemp, 0b00000000
 	std Y+1, rTemp
-	ldi rTemp, 0b00000100
+	ldi rTemp, 0b00000000
 	std Y+2, rTemp
 	ldi rTemp, 0b00001000
 	std Y+3, rTemp
-	ldi rTemp, 0b00000001
+	ldi rTemp, 0b00000000
 	std Y+4, rTemp
-	ldi rTemp, 0b00000010
+	ldi rTemp, 0b00000000
 	std Y+5, rTemp
-	ldi rTemp, 0b00000100
+	ldi rTemp, 0b00000000
 	std Y+6, rTemp
-	ldi rTemp, 0b00001000
+	ldi rTemp, 0b00000000
 	std Y+7, rTemp
 	ldi rUpdateFlag, 0
 	ldi rUpdateDelay, 0
@@ -494,27 +494,29 @@ isr_timerOF:
 
 Laddarad:
 
-	in rPORTD, PORTD
+	in rTemp, PORTD
 
 	bst rSnake, 7
-	bld rPORTD, 6
+	bld rTemp, 6
 	bst rSnake, 6
-	bld rPORTD, 7
-	bst rSnake, 5
-	bld rPORTB, 0
-	bst rSnake, 4
-	bld rPORTB, 1
-	bst rSnake, 3
-	bld rPORTB, 2
-	bst rSnake, 2
-	bld rPORTB, 3
-	bst rSnake, 1
-	bld rPORTB, 4
-	bst rSnake, 0
-	bld rPORTB, 5
+	bld rTemp, 7
+	out PORTD, rTemp
+	in rTemp, PORTB
 
-	out PORTD, rPORTD
-	out PORTB, rPORTB
+	bst rSnake, 5
+	bld rTemp, 0
+	bst rSnake, 4
+	bld rTemp, 1
+	bst rSnake, 3
+	bld rTemp, 2
+	bst rSnake, 2
+	bld rTemp, 3
+	bst rSnake, 1
+	bld rTemp, 4
+	bst rSnake, 0
+	bld rTemp, 5
+
+	out PORTB, rTemp
 
 	ret
 
