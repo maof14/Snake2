@@ -323,7 +323,7 @@ main:
 ; Bestämmer hur lång tid man ska vänta mellan varje interrupt. 
 updateLoop:
 	inc rUpdateDelay			; rUpdateDelay++
-	cpi rUpdateDelay, 15		; Kolla om 10 interrupts har gått
+	cpi rUpdateDelay, 10		; Kolla om 10 interrupts har gått
 	brne skip					; Om inte 10 updates har gått, skippa continueUpdate
 	rcall continueUpdate		; 
 	skip:						; 
@@ -386,6 +386,9 @@ iterate_y:
 
 	; Läs av y-axel slut!! 
 
+	;cpi rDirectionY, 91
+	;brlo go_down
+
 	; Deadzone X
 	cpi rDirectionX, 165	; Deadzone
 	brsh go_left
@@ -400,7 +403,7 @@ iterate_y:
 	brsh go_up
 
 	cpi rDirectionY, 91
-	brlo go_left 
+	brlo go_down
 
 	; Välj om gå i X eller Y
 
@@ -467,8 +470,7 @@ checkdircont:
 		jmp outsidecheck
 	down:
 		add YL, rCurrentRow
-		ld rTemp, Y
-		inc YL
+		ld rTemp, Y+
 		st Y, rTemp
 		inc rCurrentRow
 		sub YL, rCurrentRow
