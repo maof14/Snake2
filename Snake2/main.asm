@@ -172,13 +172,13 @@ init:
 	std Y+2, rTemp
 	ldi rTemp, 0b00001000
 	std Y+3, rTemp
-	ldi rTemp, 0b00010000
+	ldi rTemp, 0b00000001
 	std Y+4, rTemp
-	ldi rTemp, 0b00100000
+	ldi rTemp, 0b00000010
 	std Y+5, rTemp
-	ldi rTemp, 0b01000000
+	ldi rTemp, 0b00000100
 	std Y+6, rTemp
-	ldi rTemp, 0b10000000
+	ldi rTemp, 0b00001000
 	std Y+7, rTemp
 	ldi rUpdateFlag, 0
 	ldi rUpdateDelay, 0
@@ -297,6 +297,8 @@ iterate_y:
 	rcall Laddarad
 	
 	rcall clear
+
+	cbi ROW4_PORT, ROW4_PINOUT
 
 ;	===================
 ;		SIXTH ROW
@@ -468,7 +470,7 @@ outsidecheck:
 	clc
 
 	outsidecheckdone:
-	cpi rCounter, 3
+	cpi rCounter, 8
 	breq done
 	
 cont:
