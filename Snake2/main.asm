@@ -8,7 +8,7 @@
 ; [En lista med registerdefinitioner]
 .DEF rTemp				= r16
 .DEF rDirection			= r17
-.DEF rA					= r18
+.DEF rCurrentRow		= r18
 .DEF rCounter			= r19
 .DEF rB					= r20
 .DEF rSnake				= r21
@@ -183,6 +183,7 @@ init:
 	ldi rUpdateFlag, 0
 	ldi rUpdateDelay, 0
 	ldi rDirection, 0
+	ldi rCurrentRow, 3
 
 ; Game loop
 main:
@@ -396,10 +397,10 @@ iterate_y:
 	; rDirectionY > 128 = uppåt
 
 	cpi rDirectionY, 165
-	; brsh
+	brsh go_up
 
 	cpi rDirectionY, 91
-	; brlo 
+	brlo go_left 
 
 	; Välj om gå i X eller Y
 
@@ -411,11 +412,17 @@ iterate_y:
 	; Upp = 4 (inte fixat än)
 	; Ner = 8 (inte fixat än)
 	go_left:
-		ldi rDirection, 0b0000001
+		ldi rDirection, 1
 	jmp checkdir
-	
 	go_right:
-		ldi rDirection, 0b0000010
+		ldi rDirection, 2
+	jmp checkdir
+	go_down:
+		ldi rDirection, 4
+	jmp checkdir
+	go_up:
+		ldi rDirection, 8
+
 	
 checkdir:
 
@@ -438,21 +445,36 @@ checkdircont:
 
 	cpi rDirection, 2
 	breq right
+
+	cpi rDirection, 4
+	breq down
+
+	cpi rDirection, 8
+	breq up
 	
 	
 
 	jmp outsidecheck
 	left:
-		;rcall move_left
 		ld rTemp, Y
 		lsl rTemp
 		st Y, rTemp
 		jmp outsidecheck
 	right:
-		;rcall move_right
 		ld rTemp, Y
 		lsr rTemp
 		st Y, rTemp
+		jmp outsidecheck
+	down:
+		add YL, rCurrentRow
+		ld rTemp, Y
+		inc YL
+		st Y, rTemp
+		inc rCurrentRow
+		sub YL, rCurrentRow
+		jmp outsidecheck
+	up:
+		;
 outsidecheck:
 
 	brcc outsidecheckdone	; Kontrollera om Carry är cleared
@@ -482,8 +504,6 @@ cont:
 	inc rCounter
 
 	ld rTemp, Y+
-	;inc rTemp
-	;st Y, rTemp
 	jmp checkdircont
 done:
 	ret
@@ -532,16 +552,3 @@ clear:
 	cbi COL7_PORT, COL7_PINOUT
 	
 	ret
-/*
-move_right:
-	ld rTemp, Y
-	lsr rTemp
-	st Y, rTemp
-	ret
-
-move_left:
-	ld rTemp, Y
-	lsl rTemp
-	st Y, rTemp
-	ret
-	*/
