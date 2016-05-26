@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Thu May 26 11:40:26 2016
+AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Thu May 26 12:48:44 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\avrasm\inc\m328pdef.inc'
                  
@@ -1385,10 +1385,10 @@ AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\ma
                  	; rDirectionY > 128 = uppåt
                  
 0000d6 3a85      	cpi rDirectionY, 165
-0000d7 f468      	brsh go_up
+0000d7 f450      	brsh go_up
                  
 0000d8 358b      	cpi rDirectionY, 91
-0000d9 f040      	brlo go_down
+0000d9 f058      	brlo go_down
                  
                  	; Välj om gå i X eller Y
                  
@@ -1398,17 +1398,17 @@ AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\ma
                  	; Vänster = 1
                  	; Höger = 2
                  	; Upp = 4 (inte fixat än)
-                 	; Ner = 8 (inte fixat än)
+                 	; Ner = 8 
                  	go_left:
 0000dc e011      		ldi rDirection, 1
 0000dd 940c 00e6 	jmp checkdir
                  	go_right:
 0000df e012      		ldi rDirection, 2
 0000e0 940c 00e6 	jmp checkdir
-                 	go_down:
+                 	go_up:
 0000e2 e014      		ldi rDirection, 4
 0000e3 940c 00e6 	jmp checkdir
-                 	go_up:
+                 	go_down:
 0000e5 e018      		ldi rDirection, 8
                  
                  	
@@ -1436,10 +1436,10 @@ AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\ma
 0000ef f059      	breq right
                  
 0000f0 3014      	cpi rDirection, 4
-0000f1 f071      	breq down
+0000f1 f0c1      	breq up
                  
 0000f2 3018      	cpi rDirection, 8
-0000f3 f0b1      	breq up
+0000f3 f061      	breq down
                  	
                  	
                  

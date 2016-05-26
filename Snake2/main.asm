@@ -413,17 +413,17 @@ iterate_y:
 	; Vänster = 1
 	; Höger = 2
 	; Upp = 4 (inte fixat än)
-	; Ner = 8 (inte fixat än)
+	; Ner = 8 
 	go_left:
 		ldi rDirection, 1
 	jmp checkdir
 	go_right:
 		ldi rDirection, 2
 	jmp checkdir
-	go_down:
+	go_up:
 		ldi rDirection, 4
 	jmp checkdir
-	go_up:
+	go_down:
 		ldi rDirection, 8
 
 	
@@ -451,10 +451,10 @@ checkdircont:
 	breq right
 
 	cpi rDirection, 4
-	breq down
+	breq up
 
 	cpi rDirection, 8
-	breq up
+	breq down
 	
 	
 

@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Thu May 26 11:40:26 2016
+AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Thu May 26 12:48:44 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -769,15 +769,15 @@ CSEG iterate_x    000000b4
 CSEG iterate_y    000000c9
 CSEG go_left      000000dc
 CSEG go_right     000000df
-CSEG go_up        000000e5
-CSEG go_down      000000e2
+CSEG go_up        000000e2
+CSEG go_down      000000e5
 CSEG checkdir     000000e6
 CSEG checkdircont 000000ea
 CSEG outsidecheckdone 00000117
 CSEG left         000000f6
 CSEG right        000000fb
-CSEG down         00000100
 CSEG up           0000010a
+CSEG down         00000100
 CSEG outsidecheck 0000010a
 CSEG outsideleft  0000010f
 CSEG outsideRight 00000114

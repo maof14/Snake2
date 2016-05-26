@@ -36,15 +36,15 @@
   <iterate_y><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>378</LINE></iterate_y>
   <go_left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>417</LINE></go_left>
   <go_right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>420</LINE></go_right>
-  <go_up><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>426</LINE></go_up>
-  <go_down><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>423</LINE></go_down>
+  <go_up><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>423</LINE></go_up>
+  <go_down><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>426</LINE></go_down>
   <checkdir><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>430</LINE></checkdir>
   <checkdircont><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>437</LINE></checkdircont>
   <outsidecheckdone><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>514</LINE></outsidecheckdone>
   <left><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>462</LINE></left>
   <right><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>467</LINE></right>
-  <down><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>480</LINE></down>
   <up><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>491</LINE></up>
+  <down><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>480</LINE></down>
   <outsidecheck><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>493</LINE></outsidecheck>
   <outsideleft><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>503</LINE></outsideleft>
   <outsideRight><FILE>C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm</FILE><LINE>509</LINE></outsideRight>
