@@ -366,7 +366,7 @@ iterate_x:
 	; Välj y-axel
 	ldi rTemp, 0x00
 	lds rTemp, ADMUX
-	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(0<<MUX0) ; (0b0100 = 5)
+	sbr rTemp,(0<<MUX3)|(1<<MUX2)|(0<<MUX1)|(0<<MUX0) ; (0b0100 = 4)
 	sts ADMUX, rTemp
 
 	; Starta A/D-konvertering. 
@@ -432,6 +432,7 @@ checkdir:
 	ldi YH, 0
 	ldi YL, 0
 	ldi rCounter, 0
+	ldi rB, 0
 
 checkdircont:
 	
@@ -468,12 +469,24 @@ checkdircont:
 		lsr rTemp
 		st Y, rTemp
 		jmp outsidecheck
-	down:
+	/*down:
 		add YL, rCurrentRow
 		ld rTemp, Y+
 		st Y, rTemp
 		inc rCurrentRow
 		sub YL, rCurrentRow
+		jmp outsidecheck */
+
+	down:
+		ld rTemp, Y+
+		st Y, rTemp
+		inc rB
+		cpi rB, 7
+		brlo down
+		ld rTemp, Y
+		subi YL, 7
+		st Y, rTemp
+
 		jmp outsidecheck
 	up:
 		;
