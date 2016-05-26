@@ -13,9 +13,9 @@
 .DEF rPORTD				= r20
 .DEF rSnake				= r21
 .DEF rUpdateFlag		= r22
-.DEF rUpdateDelay		= r25
 .DEF rDirectionX		= r23
 .DEF rDirectionY		= r24
+.DEF rUpdateDelay		= r25
 
 /* [En lista med konstanter] */
 .EQU NUM_COLUMNS		= 8
@@ -186,23 +186,6 @@ init:
 
 ; Game loop
 main:
-/*
-
-	; rDirectionX > 128 = vänster
-	; rDirectionX < 128 = höger
-
-
-	; mov rTemp, rDirectionY
-
-	; rDirectionY < 128 = neråt
-	; rDirectionY > 128 = uppåt
-
-	cpi rDirectionX, 0b10001000 ; compare x-value with 128 + 8
-	brlo move_right				; if true, move right
-	*/
-	/* jmp end_if
-	nop */
- 
 
 	ldi YH, 0
 	ldi YL, 0
@@ -350,6 +333,10 @@ updateLoop:
 continueUpdate:	
 	ldi rUpdateDelay, 0b00000000
 
+	; =================
+	; Läs X-axel
+	; =================
+
 	; Välj x-axel
 	ldi rTemp, 0x00
 	lds rTemp, ADMUX
@@ -371,7 +358,9 @@ iterate_x:
 
 	lds rDirectionX, ADCH	; Läs av (kopiera) ADCH, som är de 8 bitarna. 
 
-	; Läs av y-axel
+	; =================
+	; Läs Y-axel
+	; =================
 
 	; Välj y-axel
 	ldi rTemp, 0x00
@@ -403,11 +392,14 @@ iterate_y:
 	cpi rDirectionX, 91		; Deadzone
 	brlo go_right
 
+	; rDirectionY < 128 = neråt
+	; rDirectionY > 128 = uppåt
+
 	cpi rDirectionY, 165
-	;brsh
+	; brsh
 
 	cpi rDirectionY, 91
-	;brlo 
+	; brlo 
 
 	; Välj om gå i X eller Y
 
