@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.0  C:\Users\Kristian\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Thu May 26 12:48:44 2016
+AVRASM ver. 2.2.0  C:\Users\Mattias\Documents\Atmel Studio\7.0\Snake2\Snake2\main.asm Fri May 27 16:24:19 2016
 
 
 EQU  SIGNATURE_000 0000001e
@@ -758,28 +758,28 @@ EQU  ROW7_PINOUT  00000005
 DSEG matrix       00000100
 DSEG snake        00000108
 CSEG init         00000034
-CSEG isr_timerOF  0000011e
-CSEG clear        00000135
+CSEG isr_timerOF  0000011a
+CSEG clear        00000131
 CSEG main         00000072
-CSEG Laddarad     00000120
+CSEG Laddarad     0000011c
 CSEG updateLoop   000000a0
 CSEG skip         000000a4
 CSEG continueUpdate 000000a7
 CSEG iterate_x    000000b4
-CSEG iterate_y    000000c9
-CSEG go_left      000000dc
-CSEG go_right     000000df
-CSEG go_up        000000e2
-CSEG go_down      000000e5
-CSEG checkdir     000000e6
-CSEG checkdircont 000000ea
-CSEG outsidecheckdone 00000117
-CSEG left         000000f6
-CSEG right        000000fb
-CSEG up           0000010a
-CSEG down         00000100
-CSEG outsidecheck 0000010a
-CSEG outsideleft  0000010f
-CSEG outsideRight 00000114
-CSEG done         0000011d
-CSEG cont         00000119
+CSEG iterate_y    000000ca
+CSEG go_left      000000dd
+CSEG go_right     000000e0
+CSEG go_up        000000e3
+CSEG go_down      000000e6
+CSEG checkdir     000000e7
+CSEG checkdircont 000000eb
+CSEG outsidecheckdone 00000113
+CSEG left         000000f7
+CSEG right        000000fc
+CSEG up           00000106
+CSEG down         00000101
+CSEG outsidecheck 00000106
+CSEG outsideleft  0000010b
+CSEG outsideRight 00000110
+CSEG done         00000119
+CSEG cont         00000115
