@@ -164,13 +164,13 @@ init:
 	ldi YH, 0
 	ldi YL, 0
 
-	ldi rTemp, 0b00000000
+	ldi rTemp, 0b00000001
 	std Y+0, rTemp
 	ldi rTemp, 0b00000000
 	std Y+1, rTemp
 	ldi rTemp, 0b00000000
 	std Y+2, rTemp
-	ldi rTemp, 0b00001000
+	ldi rTemp, 0b00000000
 	std Y+3, rTemp
 	ldi rTemp, 0b00000000
 	std Y+4, rTemp
@@ -323,7 +323,7 @@ main:
 ; Bestämmer hur lång tid man ska vänta mellan varje interrupt. 
 updateLoop:
 	inc rUpdateDelay			; rUpdateDelay++
-	cpi rUpdateDelay, 10		; Kolla om 10 interrupts har gått
+	cpi rUpdateDelay, 15		; Kolla om 10 interrupts har gått
 	brne skip					; Om inte 10 updates har gått, skippa continueUpdate
 	rcall continueUpdate		; 
 	skip:						; 
@@ -438,12 +438,9 @@ checkdir:
 checkdircont:
 	
 
-	;ld rTemp, Y
-	;add rTemp, rCounter
-	;st Y, rTemp
 
-	cpi rDirection, 0
-	breq outsidecheckdone
+	;cpi rDirection, 0
+	;breq outsidecheckdone
 
 	cpi rDirection, 1
 	breq left
@@ -459,7 +456,7 @@ checkdircont:
 	
 	
 
-	jmp outsidecheck
+	jmp outsidecheckdone
 	left:
 		ld rTemp, Y
 		lsl rTemp
@@ -470,42 +467,60 @@ checkdircont:
 		lsr rTemp
 		st Y, rTemp
 		jmp outsidecheck
-	/*down:
-		add YL, rCurrentRow
-		ld rTemp, Y+
-		st Y, rTemp
-		inc rCurrentRow
-		sub YL, rCurrentRow
-		jmp outsidecheck */
+	
 
-	down:
-		/*
-		ld rTemp, Y+
-		st Y, rTemp
-		inc rB
-		cpi rB, 7
-		brlo down
+	down: 
+		cpi YL, 7
+		breq checklowrow
 		ld rTemp, Y
-		subi YL, 7
-		st Y, rTemp
-		*/
+		cpi rTemp, 0
+		brne movedown
+			jmp outsidecheckdone
+			movedown:
+				st Y+, rB
+				st Y, rTemp
 
-		ld rTemp, Y
-		;ldi rB, 0
-		;rcall clear
-		;st Y, rB
-		;inc YL
-		;cpi YL, 7
-		;brne Ydone
-		;ldi YL, 0
-		;Ydone:
-		ldi rTemp, 8
-		st Y, rTemp
+		jmp outsidecheckdone
+
+		checklowrow:
+			ld rTemp, Y
+			cpi rTemp, 0
+				brne movelow
+				jmp outsidecheckdone
+				movelow:
+					st Y, rB
+					ldi YL, 0
+					st Y, rTemp
 
 
-
-		jmp outsidecheckdone ;ska vara outsidecheck
+		jmp outsidecheckdone
+			
+			
 	up:
+	
+		cpi YL, 0
+		breq checkhighrow
+		ld rTemp, Y
+		cpi rTemp, 0
+			brne moveup
+				jmp outsidecheckdone
+				moveup:
+					st Y, rB
+					subi YL, 1
+					st Y, rTemp
+			jmp outsidecheckdone
+
+			checkhighrow:
+				ld rTemp, Y
+				cpi rTemp, 0
+					brne movehigh
+					jmp outsidecheckdone
+					movehigh:
+						st Y, rB
+						ldi YL, 7
+						st Y, rTemp
+		
+		jmp outsidecheckdone
 		;
 outsidecheck:
 
